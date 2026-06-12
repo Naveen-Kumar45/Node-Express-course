@@ -1,0 +1,76 @@
+/*const promise = (msg) => {
+
+    const start = new Promise((resolve, reject) => {
+        if (msg) {
+            resolve("Promise is resolved")
+        }
+        else{
+            reject("Promise is rejected")
+        }
+    })
+
+    return start
+}
+
+promise(false)
+   .then((res) =>
+      console.log(res))
+   .catch((err) => 
+    console.log(err)) */
+
+
+/* const fs = require("fs")
+
+const read = (filePath) => {
+
+    return new Promise((resolve, reject) => { // This line creates and returns a new Promise object. A Promise is a JavaScript object that represents the eventual completion (or failure) of an asynchronous operation and its resulting value. The Promise constructor takes a function as an argument, which is called the executor function. The executor function receives two parameters: resolve and reject, which are functions used to indicate whether the Promise is fulfilled or rejected, respectively.
+        fs.readFile(filePath, "utf8", (err, data) => {
+            if (err) {
+                reject(err)
+            }
+            else{
+                resolve(data)
+            }
+        })
+    })
+}
+
+filePath = "./content/first.txt"
+
+read(filePath)  // This line calls the read function with the specified file path, which returns a Promise. The Promise will either resolve with the contents of the file or reject with an error if there is an issue reading the file.
+   .then(function(data){
+        console.log(data) // If the Promise is resolved successfully, the .then() method is called with the resolved data (the contents of the file) as an argument, and it logs the data to the console.
+   })
+   .then(function(){
+        console.log("File read successfully") // This .then() method is chained to the previous one, and it will be executed after the first .then() has completed. It logs a message to the console indicating that the file was read successfully.
+   })
+   .catch(function(err){
+        console.log(err) // If there is an error while reading the file, the .catch() method is called with the error as an argument, and it logs the error to the console.
+   })
+*/
+
+/* Now the same code can be written using promises and async/await to avoid callback hell and make the code more readable and maintainable. 
+This is achieved by using the fs.promises API, which provides promise-based versions of the readFile and writeFile methods. The async/await syntax allows for writing asynchronous code in a synchronous-like manner, making it easier to read and understand the flow of the program. */
+
+const fs = require('fs/promises') // or require('fs').promises or const {readFile, writeFile} = require('fs').promises
+
+const start = async () => {
+
+    console.log("Started a new task using async/await") // This will be logged before the file is read, demonstrating the asynchronous nature of the readFile method.
+
+    try {
+        const first = await fs.readFile('./content/first.txt','utf-8')
+        const second = await fs.readFile('./content/second.txt','utf-8')
+        await fs.writeFile('./content/result-async.txt',
+            `\n Here is the result from async/await: ${first}, ${second}`,
+            { flag: 'a' }
+        )
+        console.log("File written successfully using async/await") // This will be logged after the file is written, demonstrating the asynchronous nature of the writeFile method.
+    }
+    catch (error){ // This will catch any errors that occur during the asynchronous operations and log them to the console.
+        console.log( `Error occured: ${error}`) // Log the error message if an error occurs
+        console.log("Error occurred while reading or writing the file using async/await") 
+    }
+}
+
+start() // This will start the asynchronous operations defined in the start function. The execution of this function will not block the main thread, allowing for efficient handling of I/O operations in Node.js.

@@ -1,0 +1,4 @@
+Here is the result; Hello this is the first text, Hello this is the second text
+ Here is the result from async/await: Hello this is the first text, Hello this is the second text
+ Here is the result from async/await: Hello this is the first text, Hello this is the second text
+ Here is the result from async/await: Hello this is the first text, Hello this is the second text

@@ -1,0 +1,3 @@
+console.log(__dirname) // gives the path of the current directory
+console.log(__filename) // gives the path of the current file
+console.log(global) // global is an object that contains all the global variables and functions in Node.js. It is similar to the window object in the browser. You can access global variables and functions using the global object. For example, you can use global.setTimeout() to set a timeout function, or global.console.log() to log something to the console.
