@@ -3,7 +3,7 @@ const auth = (req,res,next) => {
     console.log(req.query)
     if (user === "Rama"){
         req.user = {name : "Rama" , id : "2016"}
-        return res.send(`Welcome to the Our Website ${user}`)
+        return res.send(`Welcome to  our website ${user}`)
         
     }
     else if (user === undefined){
