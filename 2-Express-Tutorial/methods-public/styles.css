@@ -72,3 +72,18 @@ button{
 button:hover{
     background-color: #dcdcdc;
 }
+
+.container{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.errorMsg{
+    margin-top: 15px;
+    color: red;
+    font-size: 18px;
+    font-weight: bold;
+}
