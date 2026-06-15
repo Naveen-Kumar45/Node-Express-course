@@ -60,7 +60,7 @@ app.post("/api/persons",(req,res) => {
     })
 })
 
-app.post('/api/postman/persons',(req,res)=>{
+app.post('/api/persons/postman',(req,res)=>{
     const {name} = req.body
     if (!name){
         return res.status(400).send({
