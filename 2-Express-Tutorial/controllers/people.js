@@ -62,5 +62,55 @@ const deletePeople = (req,res)=>{
 
 }
 
+const putPeopleJS = (req,res)=>{
+    const {name} = req.body
 
-module.exports = {deletePeople, putPeople, getPeople}
+    const person = people.find(function(person){
+        return person.name === name
+    })
+
+    if (!person){
+        return res.status(404).send({
+            success : false,
+            msg : `There is no person with the name ${name}`
+        })
+    }
+
+    const newPeople = people.map((person)=>{
+        if (person.name === name){
+            person.name = "Mitchell"
+        }
+        return person
+    })
+    res.status(201).json({
+        success : true,
+        people : newPeople
+    })
+}
+
+const deletePeopleJS = (req,res)=>{
+    console.log(req.body)
+    const {name} = req.body
+
+    const person = people.find(function(person){
+        return person.name === name
+    })
+
+    if (!person){
+        return res.status(404).send({
+            success : false,
+            msg : `There is no person with the name ${name}`
+        })
+    }
+
+    const newPeople = people.filter((person)=>{
+        return person.name !== name
+    })
+    res.status(200).json({
+        success : true,
+        people : newPeople
+    })
+
+}
+
+module.exports = {deletePeople, putPeople, getPeople, putPeopleJS, deletePeopleJS}

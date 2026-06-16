@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router()
 
 //const {people} = require("../data.js")
-const {deletePeople, putPeople, getPeople} = require("../controllers/people.js")
+const {deletePeople, putPeople, getPeople, putPeopleJS, deletePeopleJS} = require("../controllers/people.js")
 
 //router.get('/',getPeople)
 
@@ -12,4 +12,6 @@ const {deletePeople, putPeople, getPeople} = require("../controllers/people.js")
 
 router.route('/:id').put(putPeople).delete(deletePeople)
 router.route('/').get(getPeople)
+router.route("/").put(putPeopleJS)
+router.route("/").delete(deletePeopleJS)
 module.exports = router 

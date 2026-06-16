@@ -4,6 +4,7 @@ const router = express.Router()
 
 router.post('/',(req,res)=>{
     const {username} = req.body
+    console.log(username)
     if (!username){
         return res.status(400).send(`Please Enter a Valid Credentials`)
     }

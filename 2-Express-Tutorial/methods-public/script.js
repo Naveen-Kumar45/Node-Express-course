@@ -24,7 +24,7 @@ sendBtn.addEventListener("click",(event) => {
         errorMsg.textContent="Please enter a value"
         return;
     }*/
-    //errorMsg.textContent = ""; 
+    errorMsg.textContent = ""; 
 
     const user = {
         name : inputValue
@@ -43,6 +43,32 @@ sendBtn.addEventListener("click",(event) => {
     }
 
     postData()
+
+    /*const putData = async() => {
+        try{
+            const {data} = await axios.put("/api/people",user)
+            console.log(data)
+        }
+        catch(error){
+            errorMsg.textContent = error
+        }
+    }
+
+    putData()
+
+    const deleteData = async() => {
+        try{
+            const {data} = await axios.delete("/api/people",{
+                data : user})
+            console.log(data)
+        }
+        catch(error){
+            errorMsg.textContent = error
+        }
+    }
+
+    deleteData() */
+
     input.value="";
 
     /*let options = {
