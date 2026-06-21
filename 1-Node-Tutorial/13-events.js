@@ -17,14 +17,21 @@ Emitter.on("orderPlaced", (data) => {
     console.log(`Your order will be delivered to : ${data.address}`)
 })
 
-data = {
+data1 = {
     name : "Nehal",
     orderId : 12345,
     product : "Laptop",
-    address : "123 Main Street, City, Country"
+    address : "123 Main Street, Dallas, USA"
 }
-Emitter.emit("orderPlaced",data) // This line emits the "orderPlaced" event, passing the data object as an argument. When this event is emitted, any listeners that are registered for the "orderPlaced" event will be called with the provided data. In this case, the listener will log a thank you message to the console using the name property from the data object.
+Emitter.emit("orderPlaced",data1) // This line emits the "orderPlaced" event, passing the data object as an argument. When this event is emitted, any listeners that are registered for the "orderPlaced" event will be called with the provided data. In this case, the listener will log a thank you message to the console using the name property from the data object.
 
+data2 = {
+    name : "Krunal",
+    orderId : 13521,
+    product : "TV",
+    address : "545 Church Street, New york, USA"
+}
+Emitter.emit("orderPlaced",data2)
 
 const event = new EventEmitter()
 

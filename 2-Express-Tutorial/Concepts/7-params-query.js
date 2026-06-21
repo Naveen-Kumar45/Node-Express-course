@@ -1,7 +1,7 @@
 const express = require("express")
 const app = express()
 
-const {products,people} = require("./data.js")
+const {products,people} = require("../data.js")
 //console.log(people)
 //console.log(products)
 
@@ -10,14 +10,14 @@ app.get("/", (req,res) => {
     res.send("<h1>Welcome to our Home Page</h1> <a href='/api/data'>Go to Products</a>")
 })
 
-/*app.get("/api/data", (req,res) => {
+app.get("/api/data", (req,res) => {
     console.log(req.url)
     const item = products.map((product) => {
         const {id,name,image,desc,} = product
         return {id,name,image,desc}
     })
     res.json(item)
-})*/
+})
 
 app.get("/api/data/query", (req,res) => {
     console.log(req.query)
@@ -29,7 +29,7 @@ app.get("/api/data/query", (req,res) => {
     })*/
 
     let queryPersons = specificPersons.filter((person) => {
-        return person.name.includes(search) | person.age === Number(age)
+        return person.name.includes(search) || person.age === Number(age)
     })
 
     if (queryPersons.length < 1){

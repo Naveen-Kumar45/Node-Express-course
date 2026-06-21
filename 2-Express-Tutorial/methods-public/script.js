@@ -44,6 +44,19 @@ sendBtn.addEventListener("click",(event) => {
 
     postData()
 
+    const getData = async() => {
+        try {
+            const {data} = await axios.get(`/api/people/${user.name}`)
+            console.log(data)
+        }
+        catch(error){
+            errorMsg.textContent=error
+        }
+
+    }
+
+    //getData()
+
     /*const putData = async() => {
         try{
             const {data} = await axios.put("/api/people",user)

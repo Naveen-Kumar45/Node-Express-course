@@ -1,9 +1,9 @@
 const express = require('express')
 const app = new express()
 
-const authRoute = require("./routes/auth.js")
-const peopleRoute = require("./routes/people.js")
-const personsRoute =require("./routes/persons.js")
+const authRoute = require("../routes/auth.js")
+const peopleRoute = require("../routes/people.js")
+const personsRoute =require("../routes/persons.js")
 //static assets
 app.use(express.static("./methods-public"))
 //parse the json data and make the body readable

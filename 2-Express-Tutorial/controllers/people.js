@@ -10,6 +10,29 @@ const getPeople = (req,res)=>{
     })
 }
 
+const getData = (req,res) => {
+    const {username} = req.params
+    console.log(req.url)
+    console.log(username)
+
+    const person = people.find(function(person){
+        return person.name === username
+    })
+
+    if (!person){
+        return res.status(404).send({
+            success : false,
+            msg : `There is no person with the name ${username}`
+        })
+    }
+
+    res.status(200).json({
+        success : true,
+        data : person
+    })
+}
+
+
 const putPeople = (req,res)=>{
     const {id} = req.params
     const {name} = req.body
@@ -113,4 +136,4 @@ const deletePeopleJS = (req,res)=>{
 
 }
 
-module.exports = {deletePeople, putPeople, getPeople, putPeopleJS, deletePeopleJS}
+module.exports = {deletePeople, putPeople, getPeople , putPeopleJS, deletePeopleJS, getData}
