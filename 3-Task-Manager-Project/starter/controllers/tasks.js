@@ -44,8 +44,8 @@ const createTask = async (req,res) => {
 const updateTask = async (req,res) => {
     try{
         const task = await Task.findOneAndUpdate({_id : req.params.id},req.body,{
-            returnDocument : 'after',
-            runValidators : true,
+            returnDocument : 'after', // return the updated doc
+            //returnDocument : 'before', // return the old doc
         })
 
         if (!task){
@@ -58,6 +58,7 @@ const updateTask = async (req,res) => {
         res.status(500).send(err)
     }
 }
+
 
 const deleteTask = async (req,res) => {
     const taskID = req.params.id
@@ -75,5 +76,23 @@ const deleteTask = async (req,res) => {
     }
 }
 
+/*const editTask = async (req,res) => {
+    try{
+        const task = await Task.findOneAndReplace({_id : req.params.id},req.body,{
+            returnDocument : 'after',
+            runValidators : true,
+            overwrite : true
+        })
+
+        if (!task){
+            return res.status(404).json({msg : `The ID ${req.params.id} does'nt contain any information`})
+        }
+
+        res.status(201).json({task})
+    }
+    catch(err){
+        res.status(500).send(err)
+    }
+}*/
 
 module.exports={getTasks, getTask, createTask, updateTask, deleteTask}

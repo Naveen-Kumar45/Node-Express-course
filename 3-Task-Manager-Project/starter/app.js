@@ -4,12 +4,22 @@ const app = new express()
 const connectDB=require("./db/connect.js")
 const tasks = require("./routes/tasks.js")
 require("dotenv").config()
+
+//middlewares
 //app.use(express.static("./public"))
 app.use(express.json())
 
-
+//routes
 app.use("/api/v1/tasks",tasks)
 
+//app.get("/api/v1/tasks",getTasks)          --Read the tasks
+//app.get("/api/v1/tasks/:id",getTask)       --Read the specific task
+//app.post("/api/v1/tasks",createTask)       --Create the task
+//app.patch("/api/v1/tasks/:id",updateTask)  --Update the task
+//app.delete("/api/v1/tasks/:id",deleteTask) --Delete the task
+
+
+//connection to mongoDB atlas using .env file
 const connect = async ()=>{
     try{
         await connectDB(process.env.MONGO_URI)
