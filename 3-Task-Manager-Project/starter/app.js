@@ -3,6 +3,8 @@ const app = new express()
 
 const connectDB=require("./db/connect.js")
 const tasks = require("./routes/tasks.js")
+const notFound = require("./middlewares/not-found.js")
+const errorHandler = require("./middlewares/error-handling.js")
 require("dotenv").config()
 
 //middlewares
@@ -11,6 +13,10 @@ app.use(express.json())
 
 //routes
 app.use("/api/v1/tasks",tasks)
+
+app.use(notFound)
+
+app.use(errorHandler);
 
 //app.get("/api/v1/tasks",getTasks)          --Read the tasks
 //app.get("/api/v1/tasks/:id",getTask)       --Read the specific task
