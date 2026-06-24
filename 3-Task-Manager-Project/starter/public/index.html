@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="task.css">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Task Manager</h1>
+        <p>Manage your tasks efficiently</p>
+    </div>
+
+    <div class="main">
+
+        <!-- TASK LIST -->
+        <div class="task-section">
+
+            <div class="section-header">
+                <h2>Tasks</h2>
+                <button class="add-btn">+ New Task</button>
+            </div>
+
+            <div class="task-list">
+
+                <div class="task-card">
+                    <div>
+                        <h3>Learn Express</h3>
+                        <span class="pending">Pending</span>
+                    </div>
+
+                    <div class="actions">
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    </div>
+                </div>
+
+                <div class="task-card">
+                    <div>
+                        <h3>MongoDB Setup</h3>
+                        <span class="completed">Completed</span>
+                    </div>
+
+                    <div class="actions">
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- EDIT PANEL -->
+        <div class="form-section">
+
+            <h2>Task Details</h2>
+
+            <form>
+
+                <div class="input-group">
+                    <label>Task Name</label>
+                    <input
+                        type="text"
+                        id="taskName"
+                        placeholder="Enter task name">
+                </div>
+
+                <div class="input-group">
+                    <label>Description</label>
+                    <textarea
+                        id="description"
+                        rows="5"
+                        placeholder="Enter task description">
+                    </textarea>
+                </div>
+
+                <div class="input-group">
+                    <label>Status</label>
+                    <select id="status">
+                        <option>Pending</option>
+                        <option>Completed</option>
+                    </select>
+                </div>
+
+                <button
+                    type="button"
+                    class="update-btn">
+                    Update Task
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="task.js"></script>
+</body>
+</html>

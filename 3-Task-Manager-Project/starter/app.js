@@ -8,7 +8,7 @@ const errorHandler = require("./middlewares/error-handling.js")
 require("dotenv").config()
 
 //middlewares
-//app.use(express.static("./public"))
+app.use(express.static("./public"))
 app.use(express.json())
 
 //routes
