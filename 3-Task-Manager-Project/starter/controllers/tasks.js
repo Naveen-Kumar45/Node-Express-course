@@ -5,6 +5,8 @@ const errorCreation = require("http-errors")
 const getTasks = asyncWrapper(async (req,res) => {
     const tasks = await Task.find({})
     res.status(200).json(tasks)
+    console.log(tasks)
+
 })
 
 
@@ -35,7 +37,7 @@ const updateTask = async (req,res) => {
         })
 
         if (!task){
-            return res.status(404).json({msg : `The ID ${req.params.id} does'nt contain any information`})
+            return res.status(404).json(`The ID ${req.params.id} does'nt contain any information`)
         }
 
         res.status(201).json({task})

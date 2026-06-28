@@ -24,14 +24,15 @@ app.use(errorHandler);
 //app.patch("/api/v1/tasks/:id",updateTask)  --Update the task
 //app.delete("/api/v1/tasks/:id",deleteTask) --Delete the task
 
+const port = process.env.PORT || 3000  // to assign port through the terminal "$env:PORT=6000; node app.js"
 
 //connection to mongoDB atlas using .env file
 const connect = async ()=>{
     try{
         await connectDB(process.env.MONGO_URI)
         console.log("Connected to the DB...")
-        app.listen(5000, () => {
-            console.log("Server listening on the port")
+        app.listen(port, () => {
+            console.log(`Server listening on the port ${port}`)
         }) 
     }
     catch(err){
