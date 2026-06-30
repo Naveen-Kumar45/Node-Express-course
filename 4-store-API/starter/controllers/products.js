@@ -64,6 +64,7 @@ const getProducts = async (req,res) => {
         }
 
     }
+    console.log(queryObject)
 
     let result =  Product.find(queryObject)
 
