@@ -1,4 +1,4 @@
-require("dotenv")
+require("dotenv").config()
 
 
 const express = require("express")
@@ -10,7 +10,7 @@ const errorHandler = require("./middlewares/error-handler")
 const routeAuth = require("./routes/auth.js")
 app.use(express.json())
 
-
+app.use("/api/v1",routeAuth)
 
 app.use(notFound)
 app.use(errorHandler)
