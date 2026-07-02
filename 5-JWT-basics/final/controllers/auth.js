@@ -16,16 +16,16 @@ const signIn = (req,res) => {
     // just for demo, in production use long, complex and unguessable string value!!!!!!!!!
 
     if (!username || !password){
-        throw errorCreator(401, "Please Enter Valid Credentials")
+        let invalid = !username && !password? "username and password" :  !username ? "username" : "password"
+        throw errorCreator.BadRequest( `Please enter ${invalid}`)
     }
-
     const user ={
         name : username,
         id : Date.now(),
-        role : "user"
     }
-
     console.log(user)
+    
+
     const token = jwt.sign({user},process.env.JWT_SECRET_KEY, {expiresIn : '1d'})
     console.log(token)
 
@@ -35,8 +35,9 @@ const signIn = (req,res) => {
     })
 }
 
-const userDetails = (req,res) => {
-    res.status(200).send("Hey, Hi There :)")
+const dashboard = (req,res) => {
+
+    res.status(200).json(req.user)
 }
 
-module.exports = {signIn, userDetails}
+module.exports = {signIn, dashboard}

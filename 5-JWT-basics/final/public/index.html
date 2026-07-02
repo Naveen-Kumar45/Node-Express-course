@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ================= Navigation ================= -->
+
+    <nav class="navbar">
+        <h2 class="logo">MyApp</h2>
+
+        <div class="nav-buttons">
+            <a href="index.html" class="active">Login</a>
+            <a href="register.html">Register</a>
+        </div>
+    </nav>
+
+    <!-- ================= Login Form ================= -->
+
+    <div class="container">
+
+        <form id="loginForm" class="form">
+
+            <h1>Login</h1>
+
+            <div class="input-group">
+                <input
+                    type="text"
+                    id="loginUsername"
+                    placeholder="Username"
+                    required
+                >
+            </div>
+
+            <div class="input-group">
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Password"
+                    required
+                >
+            </div>
+
+            <button type="submit">
+                Login
+            </button>
+
+            <!-- Message Container -->
+            <div id="loginMsg" class="message"></div>
+
+        </form>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>

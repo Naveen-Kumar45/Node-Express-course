@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ================= Navigation ================= -->
+
+    <nav class="navbar">
+        <h2 class="logo">MyApp</h2>
+
+        <div class="nav-buttons">
+            <a href="index.html">Login</a>
+            <a href="register.html" class="active">Register</a>
+        </div>
+    </nav>
+
+    <!-- ================= Register Form ================= -->
+
+    <div class="container">
+
+        <form id="registerForm" class="form">
+            <h1>Create Account</h1>
+
+            <!-- Username -->
+            <div class="input-group">
+                <input type="text" id="registerUsername" placeholder="Username" required>
+            </div>
+
+            <!-- Password -->
+            <div class="input-group">
+                <input type="password" id="registerPassword" placeholder="Password" required> </div>
+
+            <!-- Role -->
+            <div class="input-group">
+                <label for="registerRole">Role</label>
+                
+                <select id="registerRole" required>
+                    <option value="" disabled selected> Select a role</option>
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            
+            <!-- Register Button -->
+            <button type="submit">Register</button>
+
+            <!-- Message Container -->
+            <div id="registerMsg" class="message"></div>
+        </form>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>

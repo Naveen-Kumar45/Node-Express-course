@@ -8,6 +8,7 @@ const app = new express()
 const notFound = require("./middlewares/notFound")
 const errorHandler = require("./middlewares/error-handler")
 const routeAuth = require("./routes/auth.js")
+app.use(express.static("./public"))
 app.use(express.json())
 
 app.use("/api/v1",routeAuth)
