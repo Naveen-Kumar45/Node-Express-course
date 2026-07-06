@@ -17,7 +17,7 @@ const errorHandler = (err,req,res,next) => {
     }
 
     if (err.code && err.code === 11000){
-        customError.msg = `The  ${Object.keys(err.keyValue)} had been already taken please chose another one`
+        customError.msg = `The ${Object.keys(err.keyValue)} had been already taken please choose another one`
         customError.statusCode = StatusCodes.CONFLICT
     }
 

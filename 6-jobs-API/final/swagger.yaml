@@ -1,0 +1,238 @@
+openapi: 3.0.0
+
+info:
+  title: Jobs API
+  version: '1.0.0'
+  description: REST API for managing jobs with JWT authentication
+
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Local development server
+
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register User
+      operationId: RegisterUser
+      requestBody:
+        description: User registration details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterUserRequest'
+            example:
+              name: Rahul
+              email: rahul@email.com
+              password: rahul123
+      responses:
+        '201':
+          description: User registered successfully
+        '400':
+          description: Invalid user details
+      security: []
+
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login User
+      operationId: LoginUser
+      requestBody:
+        description: User login credentials
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginUserRequest'
+            example:
+              email: rahul@email.com
+              password: rahul123
+      responses:
+        '200':
+          description: User logged in successfully
+        '400':
+          description: Email or password not provided
+        '401':
+          description: Invalid email or password
+      security: []
+
+  /jobs:
+    get:
+      tags:
+        - Jobs
+      summary: Get All Jobs
+      operationId: GetAllJobs
+      responses:
+        '200':
+          description: Jobs retrieved successfully
+        '401':
+          description: Authentication invalid
+
+    post:
+      tags:
+        - Jobs
+      summary: Create Job
+      operationId: CreateJob
+      requestBody:
+        description: Job details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateJobRequest'
+            example:
+              company: google
+              position: backend developer
+      responses:
+        '201':
+          description: Job created successfully
+        '400':
+          description: Invalid job details
+        '401':
+          description: Authentication invalid
+
+  /jobs/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The job ID
+        schema:
+          type: string
+          example: 6a4805ab302bc7cd0edc14c1
+
+    get:
+      tags:
+        - Jobs
+      summary: Get Single Job
+      operationId: GetSingleJob
+      responses:
+        '200':
+          description: Job retrieved successfully
+        '401':
+          description: Authentication invalid
+        '404':
+          description: Job not found
+
+    patch:
+      tags:
+        - Jobs
+      summary: Update Job
+      operationId: UpdateJob
+      requestBody:
+        description: Updated job details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateJobRequest'
+            example:
+              company: microsoft
+              position: software developer
+      responses:
+        '200':
+          description: Job updated successfully
+        '400':
+          description: Company and position fields cannot be empty
+        '401':
+          description: Authentication invalid
+        '404':
+          description: Job not found
+
+    delete:
+      tags:
+        - Jobs
+      summary: Delete Job
+      operationId: DeleteJob
+      responses:
+        '200':
+          description: Job deleted successfully
+        '401':
+          description: Authentication invalid
+        '404':
+          description: Job not found
+
+components:
+  schemas:
+    RegisterUserRequest:
+      title: RegisterUserRequest
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          example: Rahul
+        email:
+          type: string
+          format: email
+          example: rahul@email.com
+        password:
+          type: string
+          format: password
+          example: rahul123
+
+    LoginUserRequest:
+      title: LoginUserRequest
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: rahul@email.com
+        password:
+          type: string
+          format: password
+          example: rahul123
+
+    CreateJobRequest:
+      title: CreateJobRequest
+      type: object
+      required:
+        - company
+        - position
+      properties:
+        company:
+          type: string
+          example: google
+        position:
+          type: string
+          example: backend developer
+
+    UpdateJobRequest:
+      title: UpdateJobRequest
+      type: object
+      required:
+        - company
+        - position
+      properties:
+        company:
+          type: string
+          example: microsoft
+        position:
+          type: string
+          example: software developer
+
+  securitySchemes:
+    httpBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - httpBearer: []
+
+tags:
+  - name: Auth
+    description: User registration and login
+
+  - name: Jobs
+    description: Job management operations

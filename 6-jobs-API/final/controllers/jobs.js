@@ -45,13 +45,13 @@ const updateJob = async (req,res) => {
         throw createError.BadRequest("Company and position fields cannot be empty")
     }
 
-    const job = await Job.findByIdAndUpdate({_id : jobId, createdBy : userId}, req.body, { returnDocument : 'after', runValidators : true})
+    const job = await Job.findOneAndUpdate({_id : jobId, createdBy : userId}, req.body, { returnDocument : 'after', runValidators : true})
 
     if (!job){
-        throw createError(404, `No Job with the ID ${jobId}`)
+        throw createError(404, `No Job with the ID : ${jobId}`)
     }
 
-    res.status(201).json({job})
+    res.status(200).json({job})
 }
 
 const deleteJob = async (req,res) => {
@@ -60,10 +60,10 @@ const deleteJob = async (req,res) => {
         user : {userId}
     } = req
 
-    const job = await Job.findByIdAndDelete({_id : jobId, createdBy : userId})
+    const job = await Job.findOneAndDelete({_id : jobId, createdBy : userId})
 
     if (!job){
-        throw createError(404, `No Job with the ID ${jobId}`)
+        throw createError(404, `No Job with the ID : ${jobId}`)
     }
 
     res.status(200).json({job})
