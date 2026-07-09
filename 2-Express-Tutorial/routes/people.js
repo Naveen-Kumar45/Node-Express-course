@@ -10,7 +10,7 @@ const {deletePeople, putPeople, getPeople, putPeopleJS, deletePeopleJS, getData}
 
 //router.delete("/:id",deletePeople)
 
-router.route('/:id').put(putPeople).delete(deletePeople)
+router.route('/:id').put(putPeople).delete(deletePeople) 
 router.route('/').get(getPeople)
 router.route('/:username').get(getData)
 //router.route("/").put(putPeopleJS)

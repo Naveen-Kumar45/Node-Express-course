@@ -57,7 +57,7 @@ sendBtn.addEventListener("click",(event) => {
 
     //getData()
 
-    /*const putData = async() => {
+    const putData = async() => {
         try{
             const {data} = await axios.put("/api/people",user)
             console.log(data)
@@ -72,7 +72,7 @@ sendBtn.addEventListener("click",(event) => {
     const deleteData = async() => {
         try{
             const {data} = await axios.delete("/api/people",{
-                data : user})
+                data : user}) // This is how we send data in delete request, because delete request does not have a body, so we send data in the config object
             console.log(data)
         }
         catch(error){
@@ -80,7 +80,7 @@ sendBtn.addEventListener("click",(event) => {
         }
     }
 
-    deleteData() */
+    deleteData() 
 
     input.value="";
 
