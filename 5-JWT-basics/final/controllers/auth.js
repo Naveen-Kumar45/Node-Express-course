@@ -3,41 +3,82 @@
 // send it to the frontend and save it in the localStorage
 // setup authentication so only the request with JWT can access the dasboard
 
-
-
+const User = require("../models/user-schema.js")
+const StatusCodes = require("http-status-codes")
 const errorCreator = require("http-errors")
 const jwt = require("jsonwebtoken")
 
+const signUp = async (req,res) => {
+    console.log(req.body)
 
-const signIn = (req,res) => {
-    const { username, password } = req.body
+    const user = await User.create(req.body)
+
+    const token = await jwt.sign({
+        userID : user._id,
+        name : user.name
+    },
+    process.env.JWT_SECRET_KEY, 
+    {
+        expiresIn : '30d'
+    })
+
+    res.status(StatusCodes.CREATED).json({
+        msg : "Registration complete. Redirecting you to your dashboard",
+        token : token
+    })
+}
+
+const signIn = async (req,res) => {
+    const {name, email, password } = req.body
 
     // try to keep payload small, better experience for user
     // just for demo, in production use long, complex and unguessable string value!!!!!!!!!
 
-    if (!username || !password){
-        let invalid = !username && !password? "username and password" :  !username ? "username" : "password"
+    if ((!name && !email) || !password){
+        let invalid = (!name && !email) && !password? "username and password" :  !name && !email ? "username" : "password"
         throw errorCreator.BadRequest( `Please enter ${invalid}`)
     }
-    const user ={
-        name : username,
-        id : Date.now(),
-    }
-    console.log(user)
-    
 
-    const token = jwt.sign({user},process.env.JWT_SECRET_KEY, {expiresIn : '1d'})
-    console.log(token)
+    const queryObject = {}
+
+    if (name){
+        queryObject.name = name
+    }
+
+    if (email){
+        queryObject.email = email
+    }
+
+    const user = await User.findOne(queryObject)
+    console.log(user)
+
+    if (!user){
+        throw errorCreator.Unauthorized("The email or username you entered is incorrect. Please try again")
+    }
+
+
+    if(user.password !== password){
+        throw errorCreator.Unauthorized("The password you entered is incorrect. Please try again")
+    }
+
+    const token = jwt.sign({
+        userID : user._id,
+        name : user.name
+    },
+    process.env.JWT_SECRET_KEY,
+    {
+        expiresIn : '1h'
+    })
 
     res.status(200).json({
-        msg : "Successfully Logged in",
+        msg : "Success! Redirecting  you to your Dashboard",
         token : token
     })
 }
 
 const dashboard = (req,res) => {
 
-    res.status(200).json(req.user)
+    res.status(StatusCodes.ACCEPTED).json({name :req.user.name, ID : req.user.userID})
 }
 
-module.exports = {signIn, dashboard}
+module.exports = {signUp, signIn, dashboard}

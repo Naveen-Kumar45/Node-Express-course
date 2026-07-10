@@ -2,7 +2,7 @@ const errorCreator = require("http-errors")
 const jwt = require("jsonwebtoken")
 
 const authenticate = async (req,res,next) => {
-    console.log(req.headers)
+    //console.log(req.headers)
     const authorization = req.headers.authorization
 
     if (!authorization || !authorization.startsWith("Bearer ")){
@@ -10,13 +10,13 @@ const authenticate = async (req,res,next) => {
     }
 
     const token = authorization.split(" ")[1]
-    console.log(token)
+    //console.log(token)
 
     try{ 
         const decoded = jwt.verify(token,process.env.JWT_SECRET_KEY)
         console.log(decoded)
-        const {name , id} = decoded.user
-        req.user = {name , id}
+        const {name , userID} = decoded
+        req.user = {name , userID}
         next()
 
     }catch(err){
