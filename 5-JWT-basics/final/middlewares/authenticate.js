@@ -15,8 +15,8 @@ const authenticate = async (req,res,next) => {
     try{ 
         const decoded = jwt.verify(token,process.env.JWT_SECRET_KEY)
         console.log(decoded)
-        const {name , userID} = decoded
-        req.user = {name , userID}
+        const {name , email, role , iat , exp} = decoded
+        req.user = {name , email, role, iat, exp}
         next()
 
     }catch(err){

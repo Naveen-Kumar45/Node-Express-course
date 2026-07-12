@@ -3,23 +3,27 @@ const validator = require("validator")
 const userSchema =  new mongoose.Schema({
     name : {
         type : String,
-        required : [true, "Please provide your name"],
+        required : [true, "name"],
         maxlength : 30,
         minlength : 8
     },
     email : {
         type : String,
-        required : [true, "Please provide email"],
+        required : [true, "email"],
         validate: {
             validator: validator.isEmail,
-            message: 'Please provide a valid email',
+            message: 'a valid email',
         },
         unique : true
     },
     password : {
         type : String,
-        required : [true, "Please provide password"],
+        required : [true, "password"],
         minlength : 8
+    },
+    role : {
+        type : String,
+        required : [true, "role"],
     },
 })
 

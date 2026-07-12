@@ -95,31 +95,21 @@ body {
 /* ===========================
    Input Fields
 =========================== */
-
 .input-group {
-    margin-bottom: 18px;
-}
-
-.input-group label {
-    display: block;
-    margin-bottom: 8px;
-
-    font-weight: bold;
+    position: relative;
+    margin-bottom: 20px;
 }
 
 .input-group input,
 .input-group select {
     width: 100%;
-
     padding: 12px;
-
     font-size: 16px;
 
     border: 1px solid #ccc;
     border-radius: 6px;
 
     outline: none;
-
     transition: 0.3s;
 }
 
@@ -128,23 +118,39 @@ body {
     border-color: #2563eb;
 }
 
-/* ===========================
-   Select Dropdown
-=========================== */
+#password {
+    padding-right: 45px;
+}
 
-.input-group select {
+#togglePassword {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
     cursor: pointer;
-    background: white;
+    color: #777;
+    font-size: 18px;
+}
+
+#togglePassword:hover {
+    color: #2563eb;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
 }
 
 /* ===========================
-   Button
+   Loading Button
 =========================== */
 
 button {
     width: 100%;
-
-    padding: 13px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
 
     border: none;
     border-radius: 6px;
@@ -152,16 +158,18 @@ button {
     background: #2563eb;
     color: white;
 
-    font-size: 17px;
-    font-weight: bold;
-
     cursor: pointer;
 
     transition: 0.3s;
 }
 
-button:hover {
+button:hover:not(:disabled) {
     background: #1d4ed8;
+}
+
+button:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
 }
 
 /* ===========================
@@ -222,14 +230,6 @@ button:hover {
     margin-bottom: 10px;
 }
 
-#logout {
-    margin-top: 30px;
-    background: #dc2626;
-}
-
-#logout:hover {
-    background: #b91c1c;
-}
 
 /* ===========================
    Responsive Design
@@ -254,4 +254,295 @@ button:hover {
     .dashboard {
         width: 95%;
     }
+}
+
+.spinner {
+
+    display: inline-block;
+
+    width: 16px;
+    height: 16px;
+
+    margin-right: 8px;
+
+    border: 2px solid white;
+    border-top: 2px solid transparent;
+
+    border-radius: 50%;
+
+    animation: spin .8s linear infinite;
+
+    vertical-align: middle;
+}
+
+@keyframes spin {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+/* ===========================
+   Welcome Card
+=========================== */
+
+.welcome-card {
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 10px;
+
+    margin-bottom: 25px;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,.12);
+
+}
+
+.welcome-card h2 {
+
+    color: #2563eb;
+
+    margin-bottom: 10px;
+
+}
+
+.welcome-card p {
+
+    color: #555;
+
+}
+
+/* ===========================
+   Grid
+=========================== */
+
+.dashboard-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 25px;
+
+}
+
+/* ===========================
+   Cards
+=========================== */
+
+.dashboard-card {
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 10px;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,.12);
+
+}
+
+.dashboard-card h3 {
+
+    color: #2563eb;
+
+    margin-bottom: 25px;
+
+}
+
+/* ===========================
+   Information Rows
+=========================== */
+
+.info-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 12px 0;
+
+    border-bottom: 1px solid #eee;
+
+}
+
+.info-row:last-child {
+
+    border-bottom: none;
+
+}
+
+.info-row span:first-child {
+
+    font-weight: bold;
+
+    color: #444;
+
+}
+
+.info-row span:last-child {
+
+    color: #555;
+
+}
+
+/* ===========================
+   Role Badge
+=========================== */
+
+.role-badge {
+
+    background: #2563eb;
+
+    color: white;
+
+    padding: 5px 14px;
+
+    border-radius: 20px;
+
+    font-size: 14px;
+
+}
+
+/* ===========================
+   Authentication Status
+=========================== */
+
+.status {
+
+    padding: 12px;
+
+    margin-bottom: 20px;
+
+    border-radius: 6px;
+
+    text-align: center;
+
+    font-weight: bold;
+
+}
+
+.success {
+
+    background: #dcfce7;
+
+    color: #15803d;
+
+}
+
+.active-status {
+
+    color: green;
+
+    font-weight: bold;
+
+}
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media (max-width: 768px) {
+
+    .dashboard-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+/* ===========================
+   Dashboard Navbar
+=========================== */
+
+.dashboard-navbar {
+
+    background: #2563eb;
+
+    color: white;
+
+    padding: 15px 60px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+}
+
+.dashboard-navbar .nav-right {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+}
+
+.dashboard-navbar .user-name {
+
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: 600;
+
+    display: flex;
+
+    align-items: center;
+
+}
+
+.dashboard-navbar .logout-btn {
+
+    width: auto;
+
+    padding: 12px 22px;
+
+    background: #ef2b1f;
+
+    border: none;
+
+    border-radius: 6px;
+
+    color: white;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+}
+
+.dashboard-navbar .logout-btn:hover {
+
+    background: #d41f13;
+
+}
+#logout {
+    margin-top: 0;
+}
+
+.dashboard-navbar .logout-btn {
+
+    width: auto !important;
+
+    margin: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 22px;
 }

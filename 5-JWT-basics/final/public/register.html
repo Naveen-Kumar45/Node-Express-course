@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <title>Register</title>
 
     <link rel="stylesheet" href="style.css">
@@ -29,18 +30,24 @@
 
             <!-- Username -->
             <div class="input-group">
-                <input type="text" id="registerUsername" placeholder="Username" required>
+                <input type="text" id="registerUsername" placeholder="Username" minlength="8" maxlength="30">
+            </div>
+
+            <div class="input-group">
+                <input type="text" id="registerEmail" placeholder="Email" >
             </div>
 
             <!-- Password -->
             <div class="input-group">
-                <input type="password" id="registerPassword" placeholder="Password" required> </div>
+                <input type="password" id="password" placeholder="Password" minlength="8">
+                <i class="fa-solid fa-eye" id="togglePassword"></i>
+            </div>
 
             <!-- Role -->
             <div class="input-group">
                 <label for="registerRole">Role</label>
                 
-                <select id="registerRole" required>
+                <select id="registerRole">
                     <option value="" disabled selected> Select a role</option>
                     <option value="user">User</option>
                     <option value="admin">Admin</option>
@@ -55,9 +62,21 @@
         </form>
 
     </div>
+    
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="script.js"></script>
 
 </body>
 </html>
+
+
+
+
+<!-- Full Page Loader -->
+    <!---- <div id="loader" class="loader hidden">
+        <div class="loader-box">
+            <div class="spinner"></div>
+            <p>Please wait...</p>
+        </div>
+    </div> >
