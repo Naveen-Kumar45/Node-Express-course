@@ -13,13 +13,14 @@ const signUp = async (req,res) => {
 
     const user = await User.create(req.body)
 
-    const token = await jwt.sign({
-        userID : user._id,
-        name : user.name
+    const token = jwt.sign({
+        name : user.name,
+        email : user.email,
+        role : user.role,
     },
-    process.env.JWT_SECRET_KEY, 
+    process.env.JWT_SECRET_KEY,
     {
-        expiresIn : '30d'
+        expiresIn : '1h'
     })
 
     res.status(StatusCodes.CREATED).json({

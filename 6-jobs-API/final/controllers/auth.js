@@ -34,7 +34,7 @@ const login = async(req,res) => {
 
     if (!validateUser){
         throw createError.Unauthorized("The email you entered is incorrect. Please try again")
-    }
+    }  
 
     const isMatch = await validateUser.comparePassword(password)
 
