@@ -5,7 +5,7 @@ const authRoute = require("../routes/auth.js")
 const peopleRoute = require("../routes/people.js")
 const personsRoute =require("../routes/persons.js")
 //static assets
-app.use(express.static("./methods-public"))
+app.use(express.static("../methods-public"))
 //parse the json data and make the body readable
 app.use(express.json())
 //parse the Form data
