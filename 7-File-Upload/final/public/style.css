@@ -81,6 +81,34 @@ button:active {
     transform: translateY(0);
 }
 
+/* Message container styles */
+.message {
+    margin-top: 1rem;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    font-weight: 600;
+    text-align: center;
+    min-height: 2.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.message.info {
+    background: #fff7ed;
+    color: #6b4b2b;
+}
+.message.success {
+    background: linear-gradient(90deg, #e6f9ef 0%, #d7f4e8 100%);
+    color: #1e6b3a;
+    border: 1px solid rgba(30,107,58,0.08);
+}
+.message.error {
+    background: linear-gradient(90deg, #ffecec 0%, #ffdede 100%);
+    color: #8a1e1e;
+    border: 1px solid rgba(138,30,30,0.08);
+}
+
 @media (max-width: 500px) {
     .container {
         padding: 1.5rem;

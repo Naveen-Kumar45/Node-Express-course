@@ -8,10 +8,18 @@
     <body>
         <main class="container">
             <h1>File Upload</h1>
-            <form action="api/v1/upload" method="post" enctype="multipart/form-data" id="uploadForm">
+            <form id="uploadForm">
                 <input type="file" name="file" id="fileInput" multiple>
                 <button type="submit">Upload</button>
             </form>
+
+            <!-- Message container for server responses -->
+            <div id="message" class="message" aria-live="polite" role="status"></div>
         </main>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="./script.js"></script>
     </body>
 </html>
+<!-- 
+    This HTML file is part of a simple file upload application. It includes a form that allows users to select and upload files. The form is set up to handle multiple file uploads, and it includes a message container to display server responses. The JavaScript file (script.js) is linked at the bottom of the body to handle the form submission and provide feedback to the user. The CSS file (style.css) is linked in the head for styling the page.
+    action="api/v1/upload" method="post" enctype="multipart/form-data
