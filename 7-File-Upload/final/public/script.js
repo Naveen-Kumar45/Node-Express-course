@@ -9,6 +9,11 @@ fileUpload.addEventListener( 'submit', async (e) => {
 
 	let files = fileInput.files
 	console.log(files)
+	
+	if (files.length > 3) {
+		message.textContent = "Maximum 3 files allowed.";
+		return;
+	}
 
 	let formData = new FormData();
 
