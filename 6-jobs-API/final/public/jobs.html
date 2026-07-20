@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jobs API | Dashboard</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell jobs-page">
+      <header class="topbar">
+        <div>
+          <h1>Jobs Dashboard</h1>
+          <p>Manage your applications in one place</p>
+        </div>
+
+        <button id="logoutBtn" class="btn ghost">Logout</button>
+      </header>
+
+      <section class="dashboard-grid">
+        <div class="card">
+          <div class="card-header">
+            <h3 id="formTitle">Add a new job</h3>
+            <button id="resetBtn" class="btn small secondary">Clear</button>
+          </div>
+
+          <div id="message" class="message"></div>
+
+          <form id="job-form" class="job-form">
+            <div class="input-group">
+              <label for="company">Company</label>
+              <input type="text" id="company" placeholder="Company name" required />
+            </div>
+
+            <div class="input-group">
+              <label for="position">Position</label>
+              <input type="text" id="position" placeholder="Job title" required />
+            </div>
+
+            <div class="input-group">
+              <label for="status">Status</label>
+              <select id="status">
+                <option value="pending">Pending</option>
+                <option value="interview">Interview</option>
+                <option value="declined">Declined</option>
+              </select>
+            </div>
+
+            <button type="submit" id="submitJobBtn" class="btn primary full">Save Job</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>My Jobs</h3>
+            <button id="refreshBtn" class="btn small secondary">Refresh</button>
+          </div>
+
+          <div id="jobs-list" class="jobs-list"></div>
+        </div>
+      </section>
+    </div>
+
+    <script src="/script.js"></script>
+  </body>
+</html>

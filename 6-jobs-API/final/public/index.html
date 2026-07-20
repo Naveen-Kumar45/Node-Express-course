@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jobs API | Auth</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="card auth-card">
+        <div class="brand">
+          <span class="brand-badge">✦</span>
+          <div>
+            <h1>JobBoard</h1>
+            <p>Clean, simple job tracking</p>
+          </div>
+        </div>
+
+        <div class="toggle">
+          <button class="toggle-btn active" data-mode="login">Login</button>
+          <button class="toggle-btn" data-mode="register">Register</button>
+        </div>
+
+        <form id="auth-form" class="auth-form">
+          <div id="message" class="message"></div>
+
+          <div id="name-group" class="input-group hidden">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Enter your name" />
+          </div>
+
+          <div class="input-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="your@email.com" required />
+          </div>
+
+          <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter password" required />
+          </div>
+
+          <button type="submit" class="btn primary full">Login</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
