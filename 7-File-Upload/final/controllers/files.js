@@ -63,7 +63,8 @@ const fileUpload = async (req,res) => {
 
     res.status(StatusCodes.CREATED).json({
         msg: "File uploaded successfully!",
-        images : store // This line sends a JSON response back to the client with a status code of 201 (Created). The response includes a message indicating that the file upload was successful and an array of the stored image documents from the database. This allows the client to receive confirmation of the successful upload and access information about the uploaded files, such as their secure URLs and original names, for further processing or display in the application.
+        name : store.name, //names
+        images : store.image // This line sends a JSON response back to the client with a status code of 201 (Created). The response includes a message indicating that the file upload was successful and an array of the stored image documents from the database. This allows the client to receive confirmation of the successful upload and access information about the uploaded files, such as their secure URLs and original names, for further processing or display in the application.
     });
 }
 
