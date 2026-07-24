@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/register.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="card">
+        <div class="card__content">
+          <div class="brand">
+            <div class="brand__icon">✦</div>
+            <span>Northstar Studio</span>
+          </div>
+          <h1>Create your account</h1>
+          <p>Join thousands of professionals managing their inboxes with confidence.</p>
+
+          <form>
+            <label for="name">Full name</label>
+            <input id="name" name="name" type="text" placeholder="Enter your full name" required />
+
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email" placeholder="name@example.com" required />
+
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" placeholder="Create a strong password" required />
+
+            <label for="contact">Contact number</label>
+            <input id="contact" name="contact" type="tel" placeholder="+1 234 567 890" required />
+
+            <button type="submit">Create account</button>
+          </form>
+
+          <div class="switch">
+            Already have an account?
+            <a href="/html/login.html">Sign in</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

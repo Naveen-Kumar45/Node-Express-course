@@ -9,9 +9,15 @@ const app = express()
 
 //middlewares
 const notFound = require("./middlewares/not-found")
+const errorHandler = require("./middlewares/error-handler")
+const verifyMail = require('./services/verify')
+ 
+app.use(express.static("./public"))
+
+app.use("/mail",verifyMail)
 
 app.use(notFound)
-//app.use(errorHandler)
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 3000
 
