@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
+    <title>Sign In</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,18 +17,22 @@
       <div class="card">
         <div class="card__content">
           <div class="brand">
-            <div class="brand__icon">✦</div>
-            <span>Northstar Studio</span>
+            <div class="brand__icon">↗</div>
+            <span>AuthHub</span>
           </div>
           <h1>Welcome back</h1>
-          <p>Sign in to continue to your dashboard.</p>
+          <p>Sign in to access your account and manage everything.</p>
 
           <form>
-            <label for="name">Name</label>
-            <input id="name" name="name" type="text" placeholder="Enter your name" required />
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" placeholder="Enter your name" required />
+            </div>
 
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password" placeholder="Enter your password" required />
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input id="password" name="password" type="password" placeholder="Enter your password" required />
+            </div>
 
             <button type="submit">Sign in</button>
           </form>

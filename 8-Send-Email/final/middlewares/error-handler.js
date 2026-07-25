@@ -1,19 +1,34 @@
-const StatusCodes = require('http-status-codes');
+const StatusCodes = require("http-status-codes")
 
-const errorHandler = (err, req, res, next) => {
+
+const errorHandler = (err,req,res,next) => {
 
     let customError = {
-        msg : err.message || "Something went wrong please try again later",
-        status : err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
+        statusCode : err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
+        msg : err.message || "Something went wrong try again later"
     }
 
 
+    if (err.name === "ValidationError"){
+        const data = Object.values(err.errors).map((item) => 
+            item.message
+        ).join(",")
+        customError.msg = `Please provide ${data}`
+        customError.statusCode = StatusCodes.BAD_REQUEST
+    }
+
+    if (err && err.code === 11000){
+        customError.msg = `The ${Object.keys(err.keyValue)} had been already taken please choose another one`
+        customError.statusCode = StatusCodes.CONFLICT
+    }
+
+    if (err.name === "CastError"){
+        customError.msg = `No Job found with the ID : ${err.value}`
+        customError.statusCode = StatusCodes.NOT_FOUND 
+    }
 
 
-
-    res.status(customError.status).json({
-        msg : customError.msg
-    })
+    res.status(customError.statusCode).send(customError.msg)
 }
 
 module.exports = errorHandler
