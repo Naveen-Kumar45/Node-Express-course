@@ -22,10 +22,6 @@ const errorHandler = (err,req,res,next) => {
         customError.statusCode = StatusCodes.CONFLICT
     }
 
-    if (err.name === "CastError"){
-        customError.msg = `No Job found with the ID : ${err.value}`
-        customError.statusCode = StatusCodes.NOT_FOUND 
-    }
 
 
     res.status(customError.statusCode).send(customError.msg)

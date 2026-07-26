@@ -1,6 +1,8 @@
 const user = require('../models/user-schema')
 const bcrypt = require("bcryptjs")
 const createError = require("http-errors")
+const verifyEmail = require("../services/verify-email-otp")
+
 
 const registerMethod =async(req,res) => {
     console.log(req.body)
@@ -16,9 +18,13 @@ const registerMethod =async(req,res) => {
     const hashed = {name, email, password: hashPass};*/
 
     const newUser = await user.create(req.body)
-    const token =  newUser.createJWT()
+    const token =  newUser.createAuthJWT()
+
+    const verificationToken = await verifyEmail(newUser.email,newUser._id)
+
     res.status(201).json({user : newUser.name,
-        token
+        authToken  : token,
+        verificationToken : verificationToken,
     })
 }
 

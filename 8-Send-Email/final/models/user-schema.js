@@ -32,7 +32,7 @@ userSchema.pre("save", async function(){
     this.password = await bcrypt.hash(this.password,salt)
 })
 
-userSchema.methods.createJWT =  function(){
+userSchema.methods.createAuthJWT =  function(){
     return jwt.sign ({
         userId : this._id,
         name : this.name,

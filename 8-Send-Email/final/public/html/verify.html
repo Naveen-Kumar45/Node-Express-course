@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verify OTP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/verify.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="card">
+        <div class="card__content">
+          <div class="brand">
+            <div class="brand__icon">↗</div>
+            <span>AuthHub</span>
+          </div>
+          <h1>Verify your email</h1>
+          <p>We've sent a 6-digit verification code to your email. Enter it below to complete your registration.</p>
+
+          <form id="verify-form">
+            <div class="form-group">
+              <label for="email">Email address</label>
+              <input id="email" name="email" type="email" placeholder="your@email.com" disabled />
+            </div>
+
+            <div class="form-group">
+              <label>Enter verification code</label>
+              <div class="otp-inputs">
+                <input type="text" class="otp-box" maxlength="1" placeholder="0" data-index="0" />
+                <input type="text" class="otp-box" maxlength="1" placeholder="0" data-index="1" />
+                <input type="text" class="otp-box" maxlength="1" placeholder="0" data-index="2" />
+                <input type="text" class="otp-box" maxlength="1" placeholder="0" data-index="3" />
+                <input type="text" class="otp-box" maxlength="1" placeholder="0" data-index="4" />
+                <input type="text" class="otp-box" maxlength="1" placeholder="0" data-index="5" />
+              </div>
+            </div>
+
+            <button type="submit" class="verify-btn">Verify & Complete Registration</button>
+          </form>
+
+          <div class="resend-section">
+            <p class="resend-text">Didn't receive the code?</p>
+            <button type="button" class="resend-btn">Resend OTP</button>
+          </div>
+
+          <div class="switch">
+            Go back to
+            <a href="/index.html">Create account</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/scripts/verify.js"></script>
+  </body>
+</html>

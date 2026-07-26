@@ -18,7 +18,7 @@ const rateLimit = require("express-rate-limit") // This package is used to limit
 //middlewares
 const notFound = require("./middlewares/not-found")
 const errorHandler = require("./middlewares/error-handler")
-const verifyMail = require('./services/verify')
+const verifyMail = require('./services/verify-email-otp')
 const connectDB = require("./db/connect")
 const authRoute = require("./routes/auth")
 

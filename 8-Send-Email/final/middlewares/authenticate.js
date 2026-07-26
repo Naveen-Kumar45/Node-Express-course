@@ -1,4 +1,4 @@
-require("dotenv")
+require("dotenv").config()
 const user = require("../models/user-schema")
 const createError = require("http-errors")
 const jwt = require("jsonwebtoken")
