@@ -48,6 +48,17 @@ userSchema.methods.comparePassword = async function(password){
     return match
 }
 
+userSchema.methods.createresetJWT =  function(){
+    return jwt.sign ({
+        userId : this._id,
+        purpose : "password_reset"
+    },
+    process.env.JWT_SECRET_KEY,
+    {
+        expiresIn : '10m'
+    })
+}
+
 const user = mongoose.model("User",userSchema)
 
 module.exports = user

@@ -1,6 +1,10 @@
-const user = require('../models/user-schema')
 const bcrypt = require("bcryptjs")
 const createError = require("http-errors")
+
+//user schema
+const user = require('../models/user-schema')
+
+//email services
 const verifyEmail = require("../services/verify-email-otp")
 
 
@@ -48,7 +52,7 @@ const loginMethod = async(req,res) => {
         throw createError.Unauthorized("The password you entered is incorrect. Please try again")
     }
 
-    const token = validateUser.createJWT()
+    const token = validateUser.createAuthJWT()
     res.status(200).json({user : { name : validateUser.name}, token : token})
 }
 
