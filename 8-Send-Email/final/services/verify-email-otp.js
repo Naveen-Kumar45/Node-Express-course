@@ -17,8 +17,9 @@ const verifyEmail = async (email,userID)=> {
     })
 
 
-    await OTP.deleteMany({
+    await OTP.deleteOne({
         userId: userID,
+        purpose: "email_verification"
     });
 
     const otp = crypto.randomInt(100000,1000000).toString()

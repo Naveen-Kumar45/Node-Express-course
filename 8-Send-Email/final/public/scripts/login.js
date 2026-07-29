@@ -8,14 +8,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Get form data
     const formData = {
-      name: document.getElementById('name').value.trim(),
+      email: document.getElementById('email').value.trim(),
       password: document.getElementById('password').value,
     };
 
+    clearMessage();
+
     // Validation
-    if (!formData.name || !formData.password) {
-      alert('Please enter name and password');
+    if (!formData.email || !formData.password) {
+      showMessage('Please enter email and password', 'error');
       return;
+    }
+
+    if (formData.email !== formData.email.toLowerCase()) {
+    return showMessage(
+        "Please enter your email in lowercase.",
+        "error"
+    );
     }
 
     // Add loading state
@@ -35,6 +44,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await response.json();
 
       if (!response.ok) {
+        if (data.verified === false) {
+          sessionStorage.setItem('verificationToken', data.verificationToken);
+          sessionStorage.setItem('registeredEmail', formData.email);
+          showMessage(data.message || 'Your email is not verified. Redirecting to verification page.', 'error');
+          window.location.href = '/html/verify.html';
+          return;
+        }
+
         throw new Error(data.msg || 'Login failed');
       }
 
@@ -42,14 +59,14 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('token', data.token);
 
       // Show success message
-      alert('Login successful!');
+      showMessage('Login successful!', 'success');
 
-      // Redirect to dashboard
+      // Redirect to dashboard or home page
       // window.location.href = '/dashboard';
       console.log('User logged in:', data.user);
     } catch (error) {
       console.error('Error:', error);
-      alert('Login failed: ' + error.message);
+      showMessage('Login failed: ' + error.message, 'error');
     } finally {
       submitBtn.classList.remove('loading');
       submitBtn.disabled = false;

@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const token = params.get('token')
 
   if (!token) {
-    alert('Missing reset token. Please use the password reset link from your email.')
+    showMessage('Missing reset token. Please use the password reset link from your email.', 'error')
     submitBtn.disabled = true
     return
   }
@@ -16,18 +16,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const newpassword = document.getElementById('newpassword').value.trim()
     const confirmpassword = document.getElementById('confirmpassword').value.trim()
 
+    clearMessage();
+
     if (!newpassword || !confirmpassword) {
-      alert('Please enter both password fields.')
+      showMessage('Please enter both password fields.', 'error')
       return
     }
 
     if (newpassword.length < 8) {
-      alert('Password must be at least 8 characters long.')
+      showMessage('Password must be at least 8 characters long.', 'error')
       return
     }
 
     if (newpassword !== confirmpassword) {
-      alert('Passwords do not match. Please check both fields.')
+      showMessage('Passwords do not match. Please check both fields.', 'error')
       return
     }
 
@@ -49,14 +51,14 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error(data.msg || 'Failed to reset password')
       }
 
-      alert('Your password has been updated. Redirecting to login page...')
+      showMessage('Your password has been updated. Redirecting to login page...', 'success')
       form.reset()
       setTimeout(() => {
         window.location.href = '/html/login.html'
       }, 2500)
     } catch (error) {
       console.error('Reset error:', error)
-      alert(error.message || 'Password reset failed. Please try again.')
+      showMessage(error.message || 'Password reset failed. Please try again.', 'error')
     } finally {
       submitBtn.classList.remove('loading')
       submitBtn.disabled = false

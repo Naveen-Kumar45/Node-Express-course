@@ -22,12 +22,10 @@ const registerMethod =async(req,res) => {
     const hashed = {name, email, password: hashPass};*/
 
     const newUser = await user.create(req.body)
-    const token =  newUser.createAuthJWT()
 
     const verificationToken = await verifyEmail(newUser.email,newUser._id)
 
     res.status(201).json({user : newUser.name,
-        authToken  : token,
         verificationToken : verificationToken,
     })
 }
@@ -44,7 +42,7 @@ const loginMethod = async(req,res) => {
 
     if (!validateUser){
         throw createError.Unauthorized("The email you entered is incorrect. Please try again")
-    }  
+    }
 
     const isMatch = await validateUser.comparePassword(password)
 
@@ -52,8 +50,17 @@ const loginMethod = async(req,res) => {
         throw createError.Unauthorized("The password you entered is incorrect. Please try again")
     }
 
+    if (validateUser.isVerified == false){
+        const verificationToken = await verifyEmail(validateUser.email,validateUser._id)
+        return res.status(403).json({
+            verified: false,
+            verificationToken,
+            message: "Your email isn't verified. We've sent a new verification code."
+        });
+    }
+
     const token = validateUser.createAuthJWT()
-    res.status(200).json({user : { name : validateUser.name}, token : token})
+    res.status(200).json({user : { name : validateUser.name}, authToken : token})
 }
 
 module.exports = {registerMethod, loginMethod}

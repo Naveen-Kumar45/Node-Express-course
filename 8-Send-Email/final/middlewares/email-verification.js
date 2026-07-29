@@ -19,7 +19,7 @@ const verification = async (req,res,next) => {
     }
     catch(err){
         console.log(err)
-        throw createError(StatusCodes.UNAUTHORIZED,"Token Verification Failed")
+        throw createError(StatusCodes.UNAUTHORIZED,"Session Expired")
     }
 }
 

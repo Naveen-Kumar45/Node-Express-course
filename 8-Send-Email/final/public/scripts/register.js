@@ -1,79 +1,82 @@
-// Register page - Form Handler
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.querySelector('form');
-  const submitBtn = form.querySelector('button[type="submit"]');
+const form = document.querySelector("form");
+const nameInput = document.getElementById("name");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const contactInput = document.getElementById("contact");
+const submitBtn = form.querySelector('button[type="submit"]');
 
-  form.addEventListener('submit', async (e) => {
+form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    // Get form data
+    clearMessage();
+
     const formData = {
-      name: document.getElementById('name').value.trim(),
-      email: document.getElementById('email').value.trim(),
-      password: document.getElementById('password').value,
-      contact: document.getElementById('contact').value.trim(),
+        name: nameInput.value.trim(),
+        email: emailInput.value.trim(),
+        password: passwordInput.value,
+        contact: contactInput.value.trim(),
     };
 
-    // Validation
     if (!formData.name || !formData.email || !formData.password || !formData.contact) {
-      alert('Please fill in all fields');
-      return;
+        return showMessage("Please fill in all fields", "error");
     }
 
-    // Email validation
+
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     if (!emailRegex.test(formData.email)) {
-      alert('Please enter a valid email address');
-      return;
+        return showMessage("Please enter a valid email address", "error");
     }
 
-    // Password validation (at least 6 characters)
+    if (formData.email !== formData.email.toLowerCase()) {
+    return showMessage(
+        "Please enter a valid email address.",
+        "error"
+      );
+    }
+
     if (formData.password.length < 6) {
-      alert('Password must be at least 6 characters long');
-      return;
+        return showMessage("Password must be at least 8 characters long","error");
     }
 
-    // Phone validation (basic)
     const phoneRegex = /^[0-9+\-\s()]+$/;
+
     if (!phoneRegex.test(formData.contact)) {
-      alert('Please enter a valid phone number');
-      return;
+        return showMessage("Please enter a valid phone number", "error");
     }
 
-    // Add loading state
-    submitBtn.classList.add('loading');
+    submitBtn.classList.add("loading");
     submitBtn.disabled = true;
 
     try {
-      // TODO: Replace with your actual API endpoint
-      const response = await fetch('/api/v1/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+        const response = await fetch("/api/v1/auth/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+        });
 
-      const data = await response.json();
+        const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.msg || 'Registration failed');
-      }
+        if (!response.ok) {
+            throw new Error(data.msg || "Registration failed");
+        }
 
-      // Store email in session/localStorage for verify page
-      sessionStorage.setItem('registeredEmail', formData.email);
+        sessionStorage.setItem("verificationToken",data.verificationToken);
+        sessionStorage.setItem("registeredEmail",formData.email);
 
-      // Show success message
-      alert('Account created! Redirecting to verification...');
+        showMessage("Account created! Redirecting to verification...","success");
 
-      // Redirect to verify page
-      window.location.href = '/html/verify.html';
+        setTimeout(() => {
+            window.location.href = "/html/verify.html";
+        }, 1500);
+
     } catch (error) {
-      console.error('Error:', error);
-      alert('Registration failed: ' + error.message);
+        showMessage(error.message, "error");
     } finally {
-      submitBtn.classList.remove('loading');
-      submitBtn.disabled = false;
+        submitBtn.classList.remove("loading");
+        submitBtn.disabled = false;
     }
-  });
 });

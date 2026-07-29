@@ -122,7 +122,7 @@ label {
 
 input {
   width: 100%;
-  padding: 12px 14px;
+  padding: 12px 42px 12px 14px;
   border: 1.5px solid var(--border);
   border-radius: 10px;
   outline: none;
@@ -131,6 +131,37 @@ input {
   background: white;
   transition: all 0.2s ease;
   color: var(--text);
+}
+
+.password-input-wrapper {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  color: var(--text-light);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 0 2px;
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.password-toggle:hover,
+.password-toggle.visible {
+  color: var(--primary-dark);
 }
 
 input::placeholder {
@@ -178,6 +209,33 @@ button:active:not(:disabled) {
 button:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+}
+
+.message-container {
+  margin-top: 20px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  border: 1px solid transparent;
+  background: rgba(239, 68, 68, 0.08);
+  color: #b91c1c;
+}
+
+.message-container--success {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.35);
+  color: #047857;
+}
+
+.message-container--error {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #b91c1c;
+}
+
+.message-text {
+  margin: 0;
 }
 
 /* Loading spinner */

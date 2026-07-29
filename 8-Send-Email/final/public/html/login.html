@@ -25,29 +25,38 @@
 
           <form>
             <div class="form-group">
-              <label for="name">Name</label>
-              <input id="name" name="name" type="text" placeholder="Enter your name" required />
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="Enter your email" />
             </div>
 
-            <div class="form-group">
+            <div class="form-group password-field">
               <label for="password">Password</label>
-              <input id="password" name="password" type="password" placeholder="Enter your password" required />
+              <div class="password-input-wrapper">
+                <input id="password" name="password" type="password" placeholder="Enter your password"  />
+                <button type="button" class="password-toggle" aria-label="Show password">👁️</button>
+              </div>
             </div>
 
             <button type="submit">Sign in</button>
           </form>
 
           <div class="extras">
-            <a href="password.html">Forgot password?</a>
+            <a href="forgot-password.html">Forgot password?</a>
           </div>
 
           <div class="switch">
             New here?
             <a href="/index.html">Create an account</a>
           </div>
+
+          <div class="message-container" id="message-container" hidden>
+            <p class="message-text" id="message-text"></p>
+          </div>
         </div>
       </div>
     </div>
+    <script src="/scripts/messages.js"></script>
+    <script src="/scripts/password-toggle.js"></script>
     <script src="/scripts/login.js"></script>
   </body>
 </html>

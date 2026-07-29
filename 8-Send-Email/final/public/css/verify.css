@@ -218,6 +218,33 @@ button:disabled {
   cursor: not-allowed;
 }
 
+.message-container {
+  margin-top: 20px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  border: 1px solid transparent;
+  background: rgba(239, 68, 68, 0.08);
+  color: #b91c1c;
+}
+
+.message-container--success {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.35);
+  color: #047857;
+}
+
+.message-container--error {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #b91c1c;
+}
+
+.message-text {
+  margin: 0;
+}
+
 /* Loading spinner */
 button.loading::after {
   content: '';

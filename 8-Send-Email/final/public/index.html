@@ -34,14 +34,17 @@
               <input id="email" name="email" type="email" placeholder="you@example.com" />
             </div>
 
-            <div class="form-group">
+            <div class="form-group password-field">
               <label for="password">Password</label>
-              <input id="password" name="password" type="password" placeholder="Create a strong password"/>
+              <div class="password-input-wrapper">
+                <input id="password" name="password" type="password" placeholder="Create a strong password" />
+                <button type="button" class="password-toggle" aria-label="Show password">👁️</button>
+              </div>
             </div>
 
             <div class="form-group">
               <label for="contact">Contact number</label>
-              <input id="contact" name="contact" type="tel" placeholder="+1 (555) 000-0000"/>
+              <input id="contact" name="contact" type="tel" placeholder="0000000000" default="+91 " />
             </div>
 
             <button type="submit">Create account</button>
@@ -51,9 +54,15 @@
             Already have an account?
             <a href="/html/login.html">Sign in</a>
           </div>
+
+          <div class="message-container" id="message-container" hidden>
+            <p class="message-text" id="message-text"></p>
+          </div>
         </div>
       </div>
     </div>
+    <script src="/scripts/messages.js"></script>
+    <script src="/scripts/password-toggle.js"></script>
     <script src="/scripts/register.js"></script>
   </body>
 </html>

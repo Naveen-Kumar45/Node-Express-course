@@ -9,17 +9,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // Get form data
     const email = document.getElementById('email').value.trim();
 
+    clearMessage();
+
     // Validation
     if (!email) {
-      alert('Please enter your email address');
+      showMessage('Please enter your email address', 'error');
       return;
     }
 
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      alert('Please enter a valid email address');
+      showMessage('Please enter a valid email address', 'error');
       return;
+    }
+
+    if (formData.email !== formData.email.toLowerCase()) {
+    return showMessage(
+        "Please enter valid email.",
+        "error"
+      );
     }
 
     // Add loading state
@@ -43,8 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Show success message
-      alert(
-        'Password reset link has been sent to your email. Please check your inbox.'
+      showMessage(
+        'Password reset link has been sent to your email. Please check your inbox.',
+        'success'
       );
 
       // Clear form
@@ -56,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 3000);
     } catch (error) {
       console.error('Error:', error);
-      alert('Failed to send reset link: ' + error.message);
+      showMessage('Failed to send reset link: ' + error.message, 'error');
     } finally {
       submitBtn.classList.remove('loading');
       submitBtn.disabled = false;

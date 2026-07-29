@@ -1,154 +1,167 @@
-// Verify page - OTP Input Handler
-document.addEventListener('DOMContentLoaded', () => {
-  const otpBoxes = document.querySelectorAll('.otp-box');
-  const verifyForm = document.getElementById('verify-form');
-  const verifyBtn = document.querySelector('.verify-btn');
-  const resendBtn = document.querySelector('.resend-btn');
-  const emailInput = document.getElementById('email');
+const otpBoxes = document.querySelectorAll(".otp-box");
+const verifyForm = document.getElementById("verify-form");
+const verifyBtn = document.querySelector(".verify-btn");
+const resendBtn = document.querySelector(".resend-btn");
+const emailInput = document.getElementById("email");
 
-  // Pre-populate email from registration
-  const registeredEmail = sessionStorage.getItem('registeredEmail');
-  if (registeredEmail) {
+const registeredEmail = sessionStorage.getItem("registeredEmail");
+
+if (registeredEmail) {
     emailInput.value = registeredEmail;
-  } else {
-    emailInput.placeholder = 'Email not found';
-  }
+} else {
+    emailInput.placeholder = "Email not found";
+}
 
-  // Auto-focus and move between OTP boxes
-  otpBoxes.forEach((box, index) => {
-    box.addEventListener('input', (e) => {
-      const value = e.target.value;
+const getOTP = () => {
+    return [...otpBoxes].map((box) => box.value).join("");
+};
 
-      // Only allow numbers
-      if (!/^\d$/.test(value) && value !== '') {
-        e.target.value = '';
-        return;
-      }
+otpBoxes.forEach((box, index) => {
+    box.addEventListener("input", (e) => {
+        const value = e.target.value;
 
-      // Mark as filled
-      if (value) {
-        box.classList.add('filled');
-      } else {
-        box.classList.remove('filled');
-      }
-
-      // Move to next box
-      if (value && index < otpBoxes.length - 1) {
-        otpBoxes[index + 1].focus();
-      }
-    });
-
-    // Handle backspace
-    box.addEventListener('keydown', (e) => {
-      if (e.key === 'Backspace' && !e.target.value && index > 0) {
-        otpBoxes[index - 1].focus();
-      }
-    });
-
-    // Handle paste
-    box.addEventListener('paste', (e) => {
-      e.preventDefault();
-      const pastedData = e.clipboardData.getData('text').slice(0, 6);
-      const digits = pastedData.replace(/\D/g, '').split('');
-
-      digits.forEach((digit, i) => {
-        if (i < otpBoxes.length) {
-          otpBoxes[i].value = digit;
-          otpBoxes[i].classList.add('filled');
+        if (!/^\d$/.test(value) && value !== "") {
+            e.target.value = "";
+            return;
         }
-      });
 
-      if (digits.length > 0) {
-        otpBoxes[Math.min(digits.length, otpBoxes.length - 1)].focus();
-      }
+        if (value) {
+            box.classList.add("filled");
+
+            if (index < otpBoxes.length - 1) {
+                otpBoxes[index + 1].focus();
+            }
+        } else {
+            box.classList.remove("filled");
+        }
     });
-  });
 
-  // Get OTP value
-  function getOTPValue() {
-    return Array.from(otpBoxes)
-      .map((box) => box.value)
-      .join('');
-  }
+    box.addEventListener("keydown", (e) => {
+        if (e.key === "Backspace" && !box.value && index > 0) {
+            otpBoxes[index - 1].focus();
+        }
+    });
 
-  // Verify button handler
-  verifyBtn.addEventListener('click', async (e) => {
+    box.addEventListener("paste", (e) => {
+        e.preventDefault();
+
+        const digits = e.clipboardData
+            .getData("text")
+            .replace(/\D/g, "")
+            .slice(0, 6)
+            .split("");
+
+        digits.forEach((digit, i) => {
+            if (otpBoxes[i]) {
+                otpBoxes[i].value = digit;
+                otpBoxes[i].classList.add("filled");
+            }
+        });
+
+        otpBoxes[Math.min(digits.length, otpBoxes.length - 1)].focus();
+    });
+});
+
+verifyForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const otp = getOTPValue();
+
+    clearMessage();
+
+    const otp = getOTP();
 
     if (otp.length !== 6) {
-      alert('Please enter all 6 digits');
-      return;
+        return showMessage("Please enter all 6 digits", "error");
     }
 
-    // Add loading state
-    verifyBtn.classList.add('loading');
+    const verificationToken = sessionStorage.getItem("verificationToken");
+
+    if (!verificationToken) {
+        return showMessage(
+            "Verification token not found. Please register or login again.",
+            "error"
+        );
+    }
+
+    verifyBtn.classList.add("loading");
     verifyBtn.disabled = true;
 
     try {
-      // TODO: Add your verification API call here
-      console.log('Verifying OTP:', otp);
+        const response = await fetch("/api/v1/auth/register/verifyemail", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${verificationToken}`,
+            },
+            body: JSON.stringify({ otp }),
+        });
 
-      // Example API call (replace with your endpoint)
-      const response = await fetch('/api/v1/auth/register/verifyemail', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ otp })
-       });
-      const data = await response.json();
+        const data = await response.json();
 
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+        if (!response.ok) {
+            throw new Error(data.msg || "Verification failed");
+        }
 
-      alert('Email verified successfully!');
-      // Redirect to dashboard or home page
-      // window.location.href = '/dashboard';
+        sessionStorage.removeItem("verificationToken");
+        sessionStorage.removeItem("registeredEmail");
+
+        showMessage(
+            data.msg || "Email verified successfully!",
+            "success"
+        );
+
+        setTimeout(() => {
+            window.location.href = "/html/login.html";
+        }, 1500);
+
     } catch (error) {
-      console.error('Error:', error);
-      alert('Verification failed. Please try again.');
+        showMessage(error.message, "error");
     } finally {
-      verifyBtn.classList.remove('loading');
-      verifyBtn.disabled = false;
+        verifyBtn.classList.remove("loading");
+        verifyBtn.disabled = false;
     }
-  });
+});
 
-  // Resend button handler
-  resendBtn.addEventListener('click', async (e) => {
-    e.preventDefault();
+resendBtn.addEventListener("click", async () => {
+    clearMessage();
 
-    resendBtn.classList.add('loading');
+    resendBtn.classList.add("loading");
     resendBtn.disabled = true;
 
     try {
-      // TODO: Add your resend OTP API call here
-      console.log('Resending OTP');
+        const response = await fetch("/api/v1/auth/resendverification", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: emailInput.value,
+            }),
+        });
 
-      // Example API call (replace with your endpoint)
-      const response = await fetch('/api/v1/auth/verifyemail', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
-      });
-      const data = await response.json();
+        const data = await response.json();
 
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+        if (!response.ok) {
+            throw new Error(data.msg || "Failed to resend OTP");
+        }
 
-      alert('OTP resent to your email!');
+        sessionStorage.setItem(
+            "verificationToken",
+            data.verificationToken
+        );
 
-      // Clear OTP boxes
-      otpBoxes.forEach((box) => {
-        box.value = '';
-        box.classList.remove('filled');
-      });
+        showMessage("OTP has been sent again.", "success");
 
-      // Focus first box
-      otpBoxes[0].focus();
+        otpBoxes.forEach((box) => {
+            box.value = "";
+            box.classList.remove("filled");
+        });
+
+        otpBoxes[0].focus();
+
     } catch (error) {
-      console.error('Error:', error);
-      alert('Failed to resend OTP. Please try again.');
+        showMessage(error.message, "error");
     } finally {
-      resendBtn.classList.remove('loading');
-      resendBtn.disabled = false;
+        resendBtn.classList.remove("loading");
+        resendBtn.disabled = false;
     }
-  });
 });
