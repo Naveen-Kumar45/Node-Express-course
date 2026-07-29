@@ -6,22 +6,22 @@ const jwt = require("jsonwebtoken")
 const userSchema = new mongoose.Schema({
     name : {
         type : String,
-        required : [true, 'name'],
+        required : [true, 'Please provide name'],
         maxlength : 50,
         minlength : 3,
     },
     email : {
         type : String,
         required : [true, 'email'],
-        lowercase : [true, 'valid email'],
+        lowercase : [true, 'Please provide valid email'],
         match: [/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             'Please provide a valid email',],
         unique: true,
     },
     password : {
         type : String,
-        required : [true, 'password'],
-        minlength : 8,
+        required : [true, 'Please provide password'],
+        minlength : [8,"Password must be atleast 8 letters long"]
         //maxlength : 12,
     },
     isVerified : {
@@ -33,6 +33,9 @@ const userSchema = new mongoose.Schema({
 
 
 userSchema.pre("save", async function(){
+
+    if (!this.isModified("password")) 
+        return;
     const salt = await bcrypt.genSalt(10)
     this.password = await bcrypt.hash(this.password,salt)
 })
@@ -41,6 +44,8 @@ userSchema.methods.createAuthJWT =  function(){
     return jwt.sign ({
         userId : this._id,
         name : this.name,
+        email : this.email,
+        isVerified : this.isVerified
     },
     process.env.JWT_SECRET_KEY,
     {

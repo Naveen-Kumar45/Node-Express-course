@@ -13,7 +13,7 @@ const errorHandler = (err,req,res,next) => {
         const data = Object.values(err.errors).map((item) => 
             item.message
         ).join(",")
-        customError.msg = `Please provide ${data}`
+        customError.msg = data
         customError.statusCode = StatusCodes.BAD_REQUEST
     }
 
@@ -24,7 +24,7 @@ const errorHandler = (err,req,res,next) => {
 
 
 
-    res.status(customError.statusCode).send(customError.msg)
+    res.status(customError.statusCode).json({msg : customError.msg})
 }
 
 module.exports = errorHandler

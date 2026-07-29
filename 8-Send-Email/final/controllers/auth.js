@@ -33,6 +33,7 @@ const registerMethod =async(req,res) => {
 const loginMethod = async(req,res) => {
     //console.log(req.body)
     const {email, password} = req.body
+    console.log(req.body)
 
     if (!email || !password) {
         throw createError.BadRequest("Please provide valid credentials")
@@ -63,4 +64,10 @@ const loginMethod = async(req,res) => {
     res.status(200).json({user : { name : validateUser.name}, authToken : token})
 }
 
-module.exports = {registerMethod, loginMethod}
+const dashboard = (req,res) => {
+    console.log(req.user)
+
+    res.status(200).json({name :req.user.name, email : req.user.email, isVerified: req.user.isVerified})
+}
+
+module.exports = {registerMethod, loginMethod, dashboard}

@@ -5,7 +5,7 @@ const statusCodes = require("http-status-codes")
 
 //email services
 const verifyEmail = require("../services/verify-email-otp")
-
+const welcomeMail = require("../services/welcome-email")
 
 const emailConfirmation = async (req,res,next) => {
     const {otp} = req.body
@@ -38,6 +38,8 @@ const emailConfirmation = async (req,res,next) => {
         msg : "Registration successfull... You are navigating to the homepage",
         authToken,
     })
+    welcomeMail(user.email,user.name)
+
 }
 
 const resendVerification = async (req, res) => {

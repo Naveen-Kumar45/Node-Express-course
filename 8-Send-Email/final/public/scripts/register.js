@@ -4,6 +4,23 @@ const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const contactInput = document.getElementById("contact");
 const submitBtn = form.querySelector('button[type="submit"]');
+let togglePassword = document.getElementById("togglePassword")
+
+
+ 
+if (passwordInput && togglePassword) { // Check if both elements exist before adding the event listener and toggling the password visibility
+
+    togglePassword.addEventListener("click", () => {
+
+        const isPassword = passwordInput.type === "password" // Check if the current type is "password"
+        passwordInput.type= isPassword ? "text" : "password" // Toggle the type between "text" and "password"
+ 
+        togglePassword.classList.toggle("fa-eye"); 
+        togglePassword.classList.toggle("fa-eye-slash");
+
+    });
+
+}
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -36,7 +53,7 @@ form.addEventListener("submit", async (e) => {
       );
     }
 
-    if (formData.password.length < 6) {
+    if (formData.password.length < 8) {
         return showMessage("Password must be at least 8 characters long","error");
     }
 
@@ -59,6 +76,7 @@ form.addEventListener("submit", async (e) => {
         });
 
         const data = await response.json();
+        console.log(data)
 
         if (!response.ok) {
             throw new Error(data.msg || "Registration failed");

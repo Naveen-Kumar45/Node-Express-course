@@ -1,75 +1,77 @@
-// Password Reset page - Form Handler
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.querySelector('form');
-  const submitBtn = form.querySelector('button[type="submit"]');
+const form = document.querySelector("form");
+const emailInput = document.getElementById("email");
+const submitBtn = form.querySelector('button[type="submit"]');
 
-  form.addEventListener('submit', async (e) => {
+form.addEventListener("submit", async (e) => {
     e.preventDefault();
-
-    // Get form data
-    const email = document.getElementById('email').value.trim();
 
     clearMessage();
 
-    // Validation
+    const email = emailInput.value.trim();
+
     if (!email) {
-      showMessage('Please enter your email address', 'error');
-      return;
+        return showMessage(
+            "Please enter your email address",
+            "error"
+        );
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     if (!emailRegex.test(email)) {
-      showMessage('Please enter a valid email address', 'error');
-      return;
+        return showMessage(
+            "Please enter a valid email address",
+            "error"
+        );
     }
 
-    if (formData.email !== formData.email.toLowerCase()) {
-    return showMessage(
-        "Please enter valid email.",
-        "error"
-      );
+    if (email !== email.toLowerCase()) {
+        return showMessage(
+            "Please enter valid email",
+            "error"
+        );
     }
 
-    // Add loading state
-    submitBtn.classList.add('loading');
+    submitBtn.classList.add("loading");
     submitBtn.disabled = true;
 
     try {
-      // TODO: Replace with your actual API endpoint
-      const response = await fetch('/api/v1/auth/login/forgotpassword', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      });
+        const response = await fetch(
+            "/api/v1/auth/forgotpassword",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email }),
+            }
+        );
 
-      const data = await response.json();
+        const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.msg || 'Request failed');
-      }
+        if (!response.ok) {
+            throw new Error(
+                data.msg || "Failed to send reset link"
+            );
+        }
 
-      // Show success message
-      showMessage(
-        'Password reset link has been sent to your email. Please check your inbox.',
-        'success'
-      );
+        showMessage(
+            data.msg ||
+            "Password reset link has been sent to your email.",
+            "success"
+        );
 
-      // Clear form
-      form.reset();
 
-      // Redirect to login page after 3 seconds
-      setTimeout(() => {
-        window.location.href = '/html/login.html';
-      }, 3000);
+        form.reset();
+
+        setTimeout(() => {
+            window.location.href = "/html/login.html";
+        }, 2000);
+
     } catch (error) {
-      console.error('Error:', error);
-      showMessage('Failed to send reset link: ' + error.message, 'error');
+        showMessage(error.message, "error");
     } finally {
-      submitBtn.classList.remove('loading');
-      submitBtn.disabled = false;
+        submitBtn.classList.remove("loading");
+        submitBtn.disabled = false;
     }
-  });
 });

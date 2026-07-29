@@ -1,67 +1,115 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.querySelector('form')
-  const submitBtn = form.querySelector('button[type="submit"]')
-  const params = new URLSearchParams(window.location.search)
-  const token = params.get('token')
+const form = document.querySelector("form");
+const newPasswordInput = document.getElementById("newpassword");
+const confirmPasswordInput = document.getElementById("confirmpassword");
+const submitBtn = form.querySelector('button[type="submit"]');
+const togglePassword1 = document.getElementById("togglePassword1");
+const togglePassword2 = document.getElementById("togglePassword2");
 
-  if (!token) {
-    showMessage('Missing reset token. Please use the password reset link from your email.', 'error')
-    submitBtn.disabled = true
-    return
-  }
+const params = new URLSearchParams(window.location.search);
+const token = params.get("token");
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault()
+if (!token) {
+    showMessage(
+        "Missing reset token. Please use the password reset link from your email.",
+        "error"
+    );
 
-    const newpassword = document.getElementById('newpassword').value.trim()
-    const confirmpassword = document.getElementById('confirmpassword').value.trim()
+    submitBtn.disabled = true;
+}
+
+if (togglePassword1 && newPasswordInput) {
+    togglePassword1.addEventListener("click", () => {
+        const isPassword = newPasswordInput.type === "password";
+
+        newPasswordInput.type = isPassword ? "text" : "password";
+
+        togglePassword1.classList.toggle("fa-eye");
+        togglePassword1.classList.toggle("fa-eye-slash");
+    });
+}
+
+if (togglePassword2 && confirmPasswordInput) {
+    togglePassword2.addEventListener("click", () => {
+        const isPassword = confirmPasswordInput.type === "password";
+
+        confirmPasswordInput.type = isPassword ? "text" : "password";
+
+        togglePassword2.classList.toggle("fa-eye");
+        togglePassword2.classList.toggle("fa-eye-slash");
+    });
+}
+
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
     clearMessage();
 
+    if (!token) return;
+
+    const newpassword = newPasswordInput.value.trim();
+    const confirmpassword = confirmPasswordInput.value.trim();
+
     if (!newpassword || !confirmpassword) {
-      showMessage('Please enter both password fields.', 'error')
-      return
+        return showMessage(
+            "Please enter both password fields.",
+            "error"
+        );
     }
 
     if (newpassword.length < 8) {
-      showMessage('Password must be at least 8 characters long.', 'error')
-      return
+        return showMessage(
+            "Password must be at least 8 characters long.",
+            "error"
+        );
     }
 
     if (newpassword !== confirmpassword) {
-      showMessage('Passwords do not match. Please check both fields.', 'error')
-      return
+        return showMessage(
+            "Passwords do not match.",
+            "error"
+        );
     }
 
-    submitBtn.classList.add('loading')
-    submitBtn.disabled = true
+    submitBtn.classList.add("loading");
+    submitBtn.disabled = true;
 
     try {
-      const response = await fetch('/api/v1/auth/resetpassword', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ newpassword, confirmpassword }),
-      })
+        const response = await fetch("/api/v1/auth/resetpassword", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                newpassword,
+                confirmpassword,
+            }),
+        });
 
-      const data = await response.json()
-      if (!response.ok) {
-        throw new Error(data.msg || 'Failed to reset password')
-      }
+        const data = await response.json();
 
-      showMessage('Your password has been updated. Redirecting to login page...', 'success')
-      form.reset()
-      setTimeout(() => {
-        window.location.href = '/html/login.html'
-      }, 2500)
+        if (!response.ok) {
+            throw new Error(
+                data.msg || "Failed to reset password"
+            );
+        }
+
+        showMessage(
+            data.msg ||
+            "Password updated successfully!",
+            "success"
+        );
+
+        form.reset();
+
+        setTimeout(() => {
+            window.location.href = "/html/login.html";
+        }, 2000);
+
     } catch (error) {
-      console.error('Reset error:', error)
-      showMessage(error.message || 'Password reset failed. Please try again.', 'error')
+        showMessage(error.message, "error");
     } finally {
-      submitBtn.classList.remove('loading')
-      submitBtn.disabled = false
+        submitBtn.classList.remove("loading");
+        submitBtn.disabled = false;
     }
-  })
-})
+});

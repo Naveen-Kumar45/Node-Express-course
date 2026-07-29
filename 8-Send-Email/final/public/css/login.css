@@ -333,3 +333,17 @@ button.loading {
     font-size: 24px;
   }
 }
+
+#togglePassword {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #777;
+    font-size: 18px;
+}
+
+#togglePassword:hover {
+    color: #2563eb;
+}

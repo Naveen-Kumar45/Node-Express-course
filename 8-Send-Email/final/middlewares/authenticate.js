@@ -17,8 +17,8 @@ const authentication = async (req,res,next) => {
         const payload = jwt.verify(token, process.env.JWT_SECRET_KEY)
         //console.log(payload)
         //const details = await user.findById(payload.userId)
-        const {userId, name} = payload
-        req.user = {userId, name}
+        const {userId, name, email, isVerified} = payload
+        req.user = {userId, name, email, isVerified}
         next()    
     }
     catch(err){

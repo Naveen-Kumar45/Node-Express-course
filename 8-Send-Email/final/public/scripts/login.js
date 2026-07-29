@@ -1,75 +1,84 @@
-// Login page - Form Handler
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.querySelector('form');
-  const submitBtn = form.querySelector('button[type="submit"]');
+const form = document.querySelector("form");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const submitBtn = form.querySelector('button[type="submit"]');
+let togglePassword = document.getElementById("togglePassword")
 
-  form.addEventListener('submit', async (e) => {
+
+ 
+if (passwordInput && togglePassword) { // Check if both elements exist before adding the event listener and toggling the password visibility
+
+    togglePassword.addEventListener("click", () => {
+
+        const isPassword = passwordInput.type === "password" // Check if the current type is "password"
+        passwordInput.type= isPassword ? "text" : "password" // Toggle the type between "text" and "password"
+ 
+        togglePassword.classList.toggle("fa-eye"); 
+        togglePassword.classList.toggle("fa-eye-slash");
+
+    });
+
+}
+
+form.addEventListener("submit", async (e) => {
     e.preventDefault();
-
-    // Get form data
-    const formData = {
-      email: document.getElementById('email').value.trim(),
-      password: document.getElementById('password').value,
-    };
 
     clearMessage();
 
-    // Validation
+    const formData = {
+        email: emailInput.value.trim(),
+        password: passwordInput.value,
+    };
+
     if (!formData.email || !formData.password) {
-      showMessage('Please enter email and password', 'error');
-      return;
+        return showMessage(
+            "Please enter email and password",
+            "error"
+        );
     }
 
     if (formData.email !== formData.email.toLowerCase()) {
-    return showMessage(
-        "Please enter your email in lowercase.",
-        "error"
-    );
+        return showMessage(
+            "Please enter your email in lowercase.",
+            "error"
+        );
     }
 
-    // Add loading state
-    submitBtn.classList.add('loading');
+    submitBtn.classList.add("loading");
     submitBtn.disabled = true;
 
     try {
-      // TODO: Replace with your actual API endpoint
-      const response = await fetch('/api/v1/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+        const response = await axios.post("/api/v1/auth/login",formData)
+        console.log(response)
 
-      const data = await response.json();
+        localStorage.setItem("token", response.data.authToken);
 
-      if (!response.ok) {
-        if (data.verified === false) {
-          sessionStorage.setItem('verificationToken', data.verificationToken);
-          sessionStorage.setItem('registeredEmail', formData.email);
-          showMessage(data.message || 'Your email is not verified. Redirecting to verification page.', 'error');
-          window.location.href = '/html/verify.html';
-          return;
-        }
+        showMessage("Login successful!", "success");
 
-        throw new Error(data.msg || 'Login failed');
-      }
+        console.log(response.data.user);
 
-      // Store token in localStorage
-      localStorage.setItem('token', data.token);
+        setTimeout(() => {
+          window.location.href = "/html/dashboard.html";
+        }, 1500);
 
-      // Show success message
-      showMessage('Login successful!', 'success');
-
-      // Redirect to dashboard or home page
-      // window.location.href = '/dashboard';
-      console.log('User logged in:', data.user);
     } catch (error) {
-      console.error('Error:', error);
-      showMessage('Login failed: ' + error.message, 'error');
+      if (error.response?.data?.verified === false) {
+        sessionStorage.setItem(
+            "verificationToken",
+            error.response.data.verificationToken
+        );
+
+        sessionStorage.setItem(
+            "registeredEmail",
+            formData.email
+        );
+
+        window.location.href = "/html/verify.html";
+        return;
+      }
+        showMessage(error.response.data.msg || error.message, "error");
     } finally {
-      submitBtn.classList.remove('loading');
-      submitBtn.disabled = false;
+        submitBtn.classList.remove("loading");
+        submitBtn.disabled = false;
     }
-  });
 });
