@@ -250,8 +250,9 @@ button.loading::after {
   position: absolute;
   width: 16px;
   height: 16px;
-  top: 50%;
-  right: 16px;
+  top: 40%;
+  left: 50%;
+  margin-left: -8px;
   margin-top: -8px;
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
