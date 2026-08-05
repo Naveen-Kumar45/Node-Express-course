@@ -1,6 +1,7 @@
 require('dotenv').config()
 const nodemailer = require('nodemailer')
 const crypto = require("crypto")
+const sgMail=require("@sendgrid/mail")
 
 //middlewares
 const OTP = require('../models/otp-schema')

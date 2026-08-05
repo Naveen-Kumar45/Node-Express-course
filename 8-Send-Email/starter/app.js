@@ -1,0 +1,1 @@
+console.log("Hey there, Welcome to the Node Express Course here you can code to build a mail sending setup:)")
