@@ -19,7 +19,9 @@ const rateLimit = require("express-rate-limit") // This package is used to limit
 const notFound = require("./middlewares/not-found")
 const errorHandler = require("./middlewares/error-handler")
 const connectDB = require("./db/connect")
-
+const payRoutes = require("./routes/payments")
+const Product = require("./models/products")
+const Order = require("./models/orders")
 
 //extra security layers
 app.set('trust proxy',1); // This line is used to tell the Express application that it is behind a proxy (like a load balancer or reverse proxy) and to trust the first proxy in the chain. This is important for applications that are deployed behind proxies, as it allows Express to correctly identify the client's IP address and other connection details. The '1' indicates that only the first proxy should be trusted.
@@ -36,6 +38,8 @@ app.use(xss());
 
 
 //routes
+app.use("/api/payments",payRoutes)
+
 
 app.use(notFound)
 app.use(errorHandler)
