@@ -40,7 +40,7 @@ const createRazorpayCheckout = async (req,res) => {
     console.log(order)
 
     res.status(200).json({
-        order
+        order : order
     })
 }
 
