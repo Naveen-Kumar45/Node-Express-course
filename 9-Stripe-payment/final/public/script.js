@@ -24,7 +24,7 @@ payBtn.addEventListener("click", async () => {
             currency: data.currency,
             order_id: data.orderId,
 
-            name: "Laxmi Teacher Store",
+            name: "Laxmi Stores",
             description: "Everything will be delivered at your doorstep",
 
             handler: (response) => {
