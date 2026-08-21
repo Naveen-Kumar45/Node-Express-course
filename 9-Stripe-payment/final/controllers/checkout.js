@@ -28,6 +28,7 @@ const createRazorpayCheckout = async (req, res) => {
     });
 
     let totalAmount = 0;
+    let orderItems = [];
 
     for (const item of items) {
         const product = products.find((product) => product._id.toString() === item.productId);
@@ -36,15 +37,33 @@ const createRazorpayCheckout = async (req, res) => {
             return res.status(404).json({ message: `Product not found: ${item.productId}` });
         }
 
+        orderItems.push({
+            product: product._id,
+            name: product.name,
+            price: product.price,
+            quantity: Number(item.quantity) || 1
+        });
+
         const quantity = Number(item.quantity) || 1;
-            totalAmount += product.price * quantity;
-        } 
+        totalAmount += product.price * quantity;
+        }
 
     const order = await razorpay.orders.create({
         amount: totalAmount * 100,
         currency: "INR",
         receipt: `receipt_${Date.now()}`,
     });
+
+    const newOrder = await Order.create({
+        items: orderItems,
+        totalAmount: totalAmount,
+        currency: "INR",
+        status: "pending",
+        razorpayOrderId: order.id,
+    });
+
+
+    console.log("Razorpay order created:", order);
 
     res.status(200).json({
         orderId: order.id,

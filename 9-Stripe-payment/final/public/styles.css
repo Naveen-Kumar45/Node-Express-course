@@ -84,6 +84,29 @@ button {
   font-weight: 600;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.orders-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--primary-dark);
+  background: white;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.orders-link:hover {
+  background: var(--surface-alt);
+}
+
 .cart-pill strong {
   display: inline-block;
   min-width: 24px;
@@ -385,4 +408,5 @@ button {
     align-items: flex-start;
     gap: 8px;
   }
+
 }
