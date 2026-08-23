@@ -1,6 +1,7 @@
 require("dotenv")
 const createError = require("http-errors")
 const statusCodes = require("http-status-codes")
+const crypto = require("crypto")
 
 //initialize Razor pay
 const RazorPay = require("razorpay")
@@ -73,5 +74,22 @@ const createRazorpayCheckout = async (req, res) => {
     });
 };
 
+const verifyPayment = async (req,res) => {
+    try{
+        const {
+            razorpay_order_id,
+            razorpay_payment_id,
+            razorpay_signature,
+        }=req.body
 
-module.exports = {createRazorpayCheckout}
+        const generatedSignature = crypto.createHmac('sha256',process.env.RAZORPAY_SECRET_KEY).update(razorpay_order_id+razorpay_payment_id).digest("hex")
+
+    }
+    catch(err){
+        
+    }
+
+}
+
+
+module.exports = {createRazorpayCheckout, verifyPayment}

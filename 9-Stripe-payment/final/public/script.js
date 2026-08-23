@@ -32,13 +32,9 @@ payBtn.addEventListener("click", async () => {
 
             console.log("Payment successful:", paymentResponse);
 
-            const response = await axios.post("/api/payments/verify",{
-                razorpay_payment_id : paymentResponse.razorpay_payment_id,
-                razorpay_order_id : paymentResponse.razorpay_order_id,
-                razorpay_signature : paymentResponse.razorpay_signature
-            });
+            const response = await axios.post("/api/payments/verify",paymentResponse);
 
-            console.log("Payment verification response:", response.data);
+            console.log("Payment verification response:", response);
             
             // window.location.href = "./order.html";
             //console.log("payment successful");
