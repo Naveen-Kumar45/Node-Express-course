@@ -14,6 +14,7 @@ const razorpay = new RazorPay({
 //middlewares
 const Product = require("../models/products")
 const Order = require("../models/orders")
+const { stat } = require("fs/promises")
 
 const createRazorpayCheckout = async (req, res) => {
     const items = Array.isArray(req.body.items) ? req.body.items : [];
@@ -82,11 +83,51 @@ const verifyPayment = async (req,res) => {
             razorpay_signature,
         }=req.body
 
-        const generatedSignature = crypto.createHmac('sha256',process.env.RAZORPAY_SECRET_KEY).update(razorpay_order_id+razorpay_payment_id).digest("hex")
+        const order = await Order.findOne({
+            razorpayOrderId : razorpay_order_id
+        })
+
+        if (!order){
+            return res.status(statusCodes.BAD_REQUEST).json({
+                success : false,
+                msg : "Order Not Found, Invalid Order ID"
+            })
+        }
+
+        console.log("Razorpay Signature :", razorpay_signature)
+
+        const generatedSignature = crypto.createHmac('sha256',process.env.RAZORPAY_SECRET_KEY).update(order.razorpayOrderId + "|" + razorpay_payment_id).digest("hex")
+
+        console.log("Generated Signature :", generatedSignature)
+
+        if (generatedSignature !== razorpay_signature){
+            return res.status(statusCodes.BAD_REQUEST).json({
+                success : false,
+                msg : "Payment verification failed , Invalid signature"
+            })
+        }
+
+        console.log("Payment signature Verified")
+
+        order.razorpayPaymentId = razorpay_payment_id
+        order.razorpaySignature = razorpay_signature
+
+        await order.save();
+
+        return res.status(statusCodes.OK).json({
+            success: true,
+            msg: "Payment verified successfully"
+        });
+
 
     }
     catch(err){
-        
+
+        console.log("Error occured :", err)
+
+        return res.status(statusCodes.INTERNAL_SERVER_ERROR).json({
+            msg : "Payment Verification Failed"
+        })
     }
 
 }
