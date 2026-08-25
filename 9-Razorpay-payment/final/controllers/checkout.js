@@ -56,6 +56,8 @@ const createRazorpayCheckout = async (req, res) => {
         receipt: `receipt_${Date.now()}`,
     });
 
+    console.log("Razorpay order created:", order);
+
     const newOrder = await Order.create({
         items: orderItems,
         totalAmount: totalAmount,
@@ -64,8 +66,7 @@ const createRazorpayCheckout = async (req, res) => {
         razorpayOrderId: order.id,
     });
 
-
-    console.log("Razorpay order created:", order);
+    console.log("MongoDB order created :", newOrder)
 
     res.status(200).json({
         orderId: order.id,
@@ -109,6 +110,19 @@ const verifyPayment = async (req,res) => {
 
         console.log("Payment signature Verified")
 
+        const payment = await razorpay.payments.fetch(razorpay_payment_id)
+
+        if (payment.status != "captured"){
+
+            order.status = "failed"
+
+            return res.status(statusCodes.NOT_ACCEPTABLE).json({
+                success : false,
+                msg : "Payment not captured , Order Failed"
+            })
+        }
+
+        order.status = "paid"
         order.razorpayPaymentId = razorpay_payment_id
         order.razorpaySignature = razorpay_signature
 
@@ -116,9 +130,8 @@ const verifyPayment = async (req,res) => {
 
         return res.status(statusCodes.OK).json({
             success: true,
-            msg: "Payment verified successfully"
+            msg: "Payment is captured and Order placed successfully"
         });
-
 
     }
     catch(err){
